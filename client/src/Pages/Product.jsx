@@ -141,7 +141,7 @@ export function Product() {
                     <Swiper modules={[Navigation]} navigation spaceBetween={10} slidesPerView={1}>
                       {images.map((url, imgIndex) => (
                         <SwiperSlide key={imgIndex}>
-                          <img src={url} loading="lazy" className="product-img" alt={`${item.name} image ${imgIndex + 1}`} />
+                          <img src={url} className="product-img" alt={`${item.name} image ${imgIndex + 1}`} />
                         </SwiperSlide>
                       ))}
                     </Swiper>
