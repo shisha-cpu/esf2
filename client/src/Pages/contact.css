@@ -1,0 +1,20 @@
+.contact-content{
+    display: flex;
+    
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+    max-width: 1000px;
+    margin:  0 auto;
+}
+.map{
+    margin-left: 20px;
+}
+
+@media (max-width:750px) {
+    .contact-content{
+        display: block;
+        
+
+    }
+}
