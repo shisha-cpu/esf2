@@ -5,6 +5,11 @@
     /* background: linear-gradient(to right, #ffffff, #e0eaff); */
     min-height: 100vh;
     font-family: Arial, sans-serif;
+   
+}
+.load-more-sect{
+    display: flex;
+    justify-content: center;
 }
 
 .filter-panel {
@@ -233,4 +238,32 @@ label{
     height: 200px;
     width: 100%;
     background-color: #ffffff;
-}
+}/* Load More Button Styles */
+.load-more {
+    display: inline-block;
+    padding: 12px 24px;
+    margin: 20px auto;
+    background-color: #007BFF; /* Синий цвет фона */
+    color: #fff; /* Белый цвет текста */
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    transition: background-color 0.3s ease;
+  }
+  
+  .load-more:hover {
+    background-color: #0056b3; /* Цвет фона при наведении */
+  }
+  
+  .load-more:active {
+    background-color: #004494; /* Цвет фона при нажатии */
+  }
+  
+  .load-more:disabled {
+    background-color: #cccccc; /* Серый цвет, если кнопка отключена */
+    cursor: not-allowed;
+  }
+  

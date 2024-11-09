@@ -2,10 +2,9 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
-import "swiper/swiper-bundle.css"; // This import might vary based on your setup
+import "swiper/swiper-bundle.css";
 import './Product.css';
 import { useSelector } from "react-redux";
-
 export function Product() {
   const [products, setProducts] = useState({});
   const [selectedCategory, setSelectedCategory] = useState(null);
@@ -14,8 +13,8 @@ export function Product() {
   const [searchTerm, setSearchTerm] = useState("");
   const [priceRange, setPriceRange] = useState([0, 1000000]);
   const [selectedManufacturer, setSelectedManufacturer] = useState("");
-  const [userBasket, setUserBasket] = useState([]);  // Add basket state
-    const user = useSelector(state =>state.user.user)
+  const [visibleProductsCount, setVisibleProductsCount] = useState(20); // добавлено состояние для отслеживания количества видимых товаров
+  const user = useSelector(state => state.user.user);
   const manufacturers = [
     "Китай", "Россия", "Akces-Med (Польша)", "Rebotec (Германия)", 
     "Barry (Тайвань)", "Я могу (Россия)", "Ortonica (Китай)", 
@@ -26,29 +25,21 @@ export function Product() {
     "Sorg (Германия)", "Fumagalli (Италия)", "VITEA CARE (Польша)", 
     "Катаржина (Россия)", "Convaid (США)", "IMEDIX (Польша)"
   ];
-
-  useEffect(() => { 
-    axios.get('./data.json') 
-      .then(res => setProducts(res.data)) 
-      .catch(err => console.log(err)); 
-
-    
+  useEffect(() => {
+    axios.get('./data.json')
+      .then(res => setProducts(res.data))
+      .catch(err => console.log(err));
   }, []);
 
   const handleCategorySelect = (category) => {
     setSelectedCategory(category);
+    setVisibleProductsCount(20); // Сбросить количество видимых товаров при смене категории
   };
 
   const handleAddToCart = (item) => {
-    console.log(item);
-    
     axios.post(`http://localhost:4444/basket/${user.email}`, { product: item })
-
-    .then(res => console.log(res.data))
-    .catch(err => console.log(err));
-
-
-    
+      .then(res => console.log(res.data))
+      .catch(err => console.log(err));
   };
 
   const handleShowDetails = (item) => {
@@ -65,13 +56,20 @@ export function Product() {
     const allProducts = Object.values(products).flat();
     const currentProducts = selectedCategory ? products[selectedCategory] : allProducts;
 
-    return currentProducts.filter(item => {
-      const matchesSearch = item.name.toLowerCase().includes(searchTerm.toLowerCase());
-      const matchesPrice = item.price >= priceRange[0] && item.price <= priceRange[1];
-      const matchesManufacturer = selectedManufacturer ? item.manufacturer === selectedManufacturer : true;
-      return matchesSearch && matchesPrice && matchesManufacturer;
-    });
+    return currentProducts
+      .filter(item => {
+        const matchesSearch = item.name.toLowerCase().includes(searchTerm.toLowerCase());
+        const matchesPrice = item.price >= priceRange[0] && item.price <= priceRange[1];
+        const matchesManufacturer = selectedManufacturer ? item.manufacturer === selectedManufacturer : true;
+        return matchesSearch && matchesPrice && matchesManufacturer;
+      })
+      .slice(0, visibleProductsCount); // ограничить количество отображаемых товаров
   };
+
+  const loadMoreProducts = () => {
+    setVisibleProductsCount(prevCount => prevCount + 20);
+  };
+
 
   return ( 
     <div className="product-page"> 
@@ -125,17 +123,16 @@ export function Product() {
         </select>
       </aside>
 
-      <div className="product-list"> 
-        <div className="title"> 
-          <h1>Наши товары</h1> 
-        </div> 
-        <div className="category"> 
-          <h2>{selectedCategory ? selectedCategory : "Все товары"}</h2> 
+      <div className="product-list">
+        <div className="title">
+          <h1>Наши товары</h1>
+        </div>
+        <div className="category">
+          <h2>{selectedCategory ? selectedCategory : "Все товары"}</h2>
           <div className="product-cards">
             {filteredProducts().length > 0 ? (
               filteredProducts().map((item, itemIndex) => {
                 const images = item.photo.replace(/\\r\\n/g, '\n').split('\n');
-
                 return (
                   <div key={itemIndex} className="product-card">
                     <Swiper modules={[Navigation]} navigation spaceBetween={10} slidesPerView={1}>
@@ -156,20 +153,27 @@ export function Product() {
               <p>Товары не найдены.</p>
             )}
           </div>
+<div className="load-more-sect">
+{filteredProducts().length >= visibleProductsCount && (
+            <button onClick={loadMoreProducts} className="load-more">
+              Показать еще
+            </button>
+          )}
+</div>
         </div>
       </div>
 
       {showModal && selectedItem && (
-        <div className="modal"> 
-          <div className="modal-content"> 
-            <span className="close" onClick={handleCloseModal}>&times;</span> 
-            <h2>{selectedItem.name}</h2> 
-            <p><strong>Производитель:</strong> {selectedItem.manufacturer}</p> 
-            <p><strong>Вес:</strong> {selectedItem.weight || "Не указано"}</p> 
-            <p><strong>Описание:</strong> {selectedItem.description}</p> 
-            <p><strong>Цена:</strong> {selectedItem.price} руб.</p> 
-            <p><strong>Код:</strong> {selectedItem.code}</p> 
-          </div> 
+        <div className="modal">
+          <div className="modal-content">
+            <span className="close" onClick={handleCloseModal}>&times;</span>
+            <h2>{selectedItem.name}</h2>
+            <p><strong>Производитель:</strong> {selectedItem.manufacturer}</p>
+            <p><strong>Вес:</strong> {selectedItem.weight || "Не указано"}</p>
+            <p><strong>Описание:</strong> {selectedItem.description}</p>
+            <p><strong>Цена:</strong> {selectedItem.price} руб.</p>
+            <p><strong>Код:</strong> {selectedItem.code}</p>
+          </div>
         </div>
       )}
     </div>
