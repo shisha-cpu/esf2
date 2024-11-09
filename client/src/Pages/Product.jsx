@@ -135,13 +135,14 @@ export function Product() {
                 const images = item.photo.replace(/\\r\\n/g, '\n').split('\n');
                 return (
                   <div key={itemIndex} className="product-card">
-                    <Swiper modules={[Navigation]} navigation spaceBetween={10} slidesPerView={1}>
-                      {images.map((url, imgIndex) => (
-                        <SwiperSlide key={imgIndex}>
-                          <img src={url} className="product-img" alt={`${item.name} image ${imgIndex + 1}`} />
-                        </SwiperSlide>
-                      ))}
-                    </Swiper>
+ <Swiper key={selectedCategory} modules={[Navigation]} navigation spaceBetween={10} slidesPerView={1}>
+  {images.map((url, imgIndex) => (
+    <SwiperSlide key={imgIndex}>
+      <img src={url} className="product-img" alt={`${item.name} image ${imgIndex + 1}`} />
+    </SwiperSlide>
+  ))}
+</Swiper>
+
                     <h3>{item.name}</h3>
                     <p><strong>Цена:</strong> {item.price} руб.</p>
                     <button onClick={() => handleAddToCart(item)}>Добавить в корзину</button>
