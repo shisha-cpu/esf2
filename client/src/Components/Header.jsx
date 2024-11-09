@@ -31,10 +31,10 @@ console.log(user);
             <Link to='/products' onClick={() => setMenuOpen(false)}>Товары</Link>
             <Link to='/about' onClick={() => setMenuOpen(false)}>О нас</Link>
             <Link to='/contact' onClick={() => setMenuOpen(false)}>Контакты</Link>
+   
           </div>
 
-         
-          <div className="header-auth header-navigate">
+          <div className={`header-navigate ${isMenuOpen ? 'active' : ''}`}>
           {
             user.user ? 
             <>
@@ -51,6 +51,7 @@ console.log(user);
             </>
           }
           </div>
+  
           <div className="burger-menu" onClick={toggleMenu}>
             <div className={`burger ${isMenuOpen ? 'open' : ''}`}></div>
           </div>

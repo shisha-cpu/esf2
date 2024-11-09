@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import './Basket.css';
+import { Link, Navigate } from 'react-router-dom';
 
 export default function Basket() {
     const [basket, setBasket] = useState([]);
@@ -35,18 +36,19 @@ export default function Basket() {
         setTotal(totalAmount);
     };
 
-    const handleDelete = async (id) => {
+    const handleDelete = async (code) => {
         try {
-            await axios.delete(`http://localhost:4444/basket/${user.email}/${id}`);
+            await axios.delete(`http://localhost:4444/basket/${user.email}/${code}`);
             fetchBasket();
         } catch (error) {
             console.error('Error deleting item:', error);
         }
     };
 
-    const handleQuantityChange = (id, quantity) => {
+    const handleQuantityChange = (code, newQuantity) => {
+        if (newQuantity < 1) newQuantity = 1; // Prevent negative quantities
         const updatedBasket = basket.map(item => 
-            item._id === id ? { ...item, quantity: Math.max(quantity, 1) } : item
+            item.code === code ? { ...item, quantity: newQuantity } : item
         );
         setBasket(updatedBasket);
         calculateTotal(updatedBasket);
@@ -55,42 +57,48 @@ export default function Basket() {
     const handlePurchase = async () => {
         try {
             await axios.post(`http://localhost:4444/orders`, { userEmail: user.email, items: basket });
-            setBasket([]);
-            setTotal(0);
+            setBasket([]); // Clear the basket after purchase
+            setTotal(0); // Reset the total
         } catch (error) {
             console.error('Error completing purchase:', error);
         }
     };
 
     return (
-        <div className="basket">
-            {basket.length === 0 ? (
-                <p>Your basket is empty.</p>
-            ) : (
-                basket.map((item) => (
-                    <BasketItem 
-                        key={item._id} 
-                        item={item} 
-                        onDelete={handleDelete} 
-                        onQuantityChange={handleQuantityChange} 
-                    />
-                ))
-            )}
-            <div className="basket-total">
-                <p>Total: {total.toLocaleString()} руб</p>
-                <button onClick={handlePurchase}>Purchase</button>
+        <div className="basket-container">
+            <div className="basket-items">
+                {basket.length === 0 ? (
+                    <p>Корзина пуста. Перейти в <Link to="/products">Товары</Link></p>
+                ) : (
+                    basket.map((item) => (
+                        <BasketItem 
+                            key={item.code} 
+                            item={item} 
+                            onDelete={handleDelete} 
+                            onQuantityChange={handleQuantityChange} 
+                        />
+                    ))
+                )}
             </div>
+            <aside className="basket-sidebar">
+                <div className="basket-total">
+                    <p>Всего: {total.toLocaleString()} руб</p>
+                    <button className="order-button" onClick={handlePurchase}>Заказать</button>
+                </div>
+            </aside>
         </div>
     );
 }
 
 function BasketItem({ item, onDelete, onQuantityChange }) {
+    console.log(item);
+    
     const handleIncrease = () => {
-        onQuantityChange(item._id, item.quantity + 1);
+        onQuantityChange(item.code, item.quantity + 1);
     };
 
     const handleDecrease = () => {
-        onQuantityChange(item._id, item.quantity - 1);
+        onQuantityChange(item.code, item.quantity - 1);
     };
 
     return (
@@ -99,14 +107,14 @@ function BasketItem({ item, onDelete, onQuantityChange }) {
                 <img src={item.photo.split('\r\n')[0]} alt={item.name} />
             </div>
             <div className="item-details">
-                <h2>{item.name}</h2>
-                <p className="item-price">Price: {item.price.toLocaleString()} руб</p>
+                <h2><strong>{item.name}</strong></h2>
+                <p className="item-price">Цена: {item.price.toLocaleString()} руб</p>
                 <div className="item-quantity">
                     <button onClick={handleDecrease}>-</button>
                     <span>{item.quantity}</span>
                     <button onClick={handleIncrease}>+</button>
                 </div>
-                <button onClick={() => onDelete(item._id)}>Delete</button>
+                <button onClick={() => onDelete(item.code)}>Удалить</button>
             </div>
         </div>
     );

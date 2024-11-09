@@ -38,7 +38,11 @@ export function Product() {
 
   const handleAddToCart = (item) => {
     axios.post(`http://localhost:4444/basket/${user.email}`, { product: item })
-      .then(res => console.log(res.data))
+      .then(res => {
+        console.log(res.data)
+        alert('Товар успешно добавлен в корзину ')
+      }
+      )
       .catch(err => console.log(err));
   };
 
@@ -145,13 +149,20 @@ export function Product() {
 
                     <h3>{item.name}</h3>
                     <p><strong>Цена:</strong> {item.price} руб.</p>
-                    <button onClick={() => handleAddToCart(item)}>Добавить в корзину</button>
-                    <button onClick={() => handleShowDetails(item)}>Подробнее</button>
+                   <div className="product-btns">
+                   <button className="add-btn" onClick={() => {
+                    if (!user) {
+                      alert('Для заказа необходимо авторизироваться ')
+                    }
+                    handleAddToCart(item)
+                   }}>Добавить в корзину</button>
+                   <button onClick={() => handleShowDetails(item)}>Подробнее</button>
+                   </div>
                   </div>
                 );
               })
             ) : (
-              <p>Товары не найдены.</p>
+              <p>Загрузка...</p>
             )}
           </div>
 <div className="load-more-sect">

@@ -68,11 +68,12 @@ app.get('/basket/:email' , async(req , res )=>{
         res.status(500).json({message : err})
     }
 })
-app.delete('/basket/:email/:id', async (req, res) => {
-  const { email, id } = req.params;
+
+app.delete('/basket/:email/:code', async (req, res) => {
+  const { email, code } = req.params;
   const user = await User.findOne({ email });
 
-  user.basket = user.basket.filter(item => item._id.toString() !== id);
+  user.basket = user.basket.filter(item => item.code.toString() !== code);
   await user.save();
   res.status(200).json({ message: 'Item deleted', basket: user.basket });
 });

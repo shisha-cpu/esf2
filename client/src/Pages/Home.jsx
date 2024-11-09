@@ -58,7 +58,7 @@ export function Home() {
           <div className="overlay">
             <div className="content-section">
               <h1 className="img-title">
-                <div className="title-strong">НАЗВАНИЕ</div>
+                <div className="title-strong">Ортошик</div>
                 <br /> специализированный магазин товаров для людей с инвалидностью
               </h1>
             </div>
