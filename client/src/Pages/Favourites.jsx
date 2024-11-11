@@ -9,7 +9,7 @@ export default function Favourites() {
   const user = useSelector(state => state.user.user);
 
   useEffect(() => {
-    axios.get(`http://90.156.169.196:4444//favourites/${user.email}`)
+    axios.get(`http://90.156.169.196:4444/favourites/${user.email}`)
       .then(res => {
         setFavourites(res.data.favourites); // Access 'favourites' from the response
       })
