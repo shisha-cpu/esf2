@@ -1,8 +1,8 @@
 import './about.css';
 
 export function About() {
-    return (
-        <div className="about container">
+    return ( 
+        <div className="about container " >
             <div className="about-header">
                <div className="title">
                <h1>О нашем магазине</h1>

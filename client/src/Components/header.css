@@ -2,18 +2,30 @@
 .header {
   position: relative;
   text-align: center;
-
+  max-width: 100svw !important;
+  overflow: hidden;
   background: linear-gradient(60deg, rgba(84, 58, 183, 1) 0%, rgba(0, 172, 193, 1) 100%);
 
-  color: white;
-  z-index: 1; 
-}
 
+  color: white;
+  z-index: 1000; 
+}
+.search{
+  border: 0;
+}
 .header-content {
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 80%;
+}
+.header-auth{
+  display: flex;
+
+}
+.header-auth a {
+
+  color: white;
 }
 
 .header-logo {
@@ -36,6 +48,9 @@
 
 
 @media (max-width: 768px) {
+  .header-logo{
+    max-width: 60px;
+  }
   .header-navigate {
     position: fixed;
     top: 0;
@@ -73,7 +88,7 @@
 .burger {
   width: 30px;
   height: 3px;
-  background-color: white;
+  background-color: rgb(255, 0, 238);
   position: relative;
   transition: all 0.3s ease-in-out;
 }
@@ -83,7 +98,7 @@
   position: absolute;
   width: 30px;
   height: 3px;
-  background-color: white;
+  background-color: rgb(255, 0, 238);
   transition: all 0.3s ease-in-out;
 }
 
@@ -179,4 +194,120 @@
   h1 {
     font-size: 24px;
   }
+}
+
+
+
+.item-list {
+  display: none;  /* Скрыто по умолчанию */
+  flex-direction: column;  /* Элементы по вертикали */
+
+  height: 1000px;  /* Ограничение высоты блока */
+
+  position: fixed;  /* Фиксированное положение */
+
+  
+  align-items: center;
+  padding: 20px;
+  z-index: 1;  /* Для отображения поверх других элементов */
+  transition: all 0.3s ease; /* Плавный переход для появления */
+  overflow-y: auto;  /* Вертикальная прокрутка */
+  background: rgba(0, 0, 0, 0.5); /* Полупрозрачный черный фон */
+  backdrop-filter: blur(5px); /* Размытие фона за элементом */
+  -webkit-backdrop-filter: blur(5px); /* Поддержка Safari */
+}
+@media (max-width:1000px) {
+  .item-list {
+    display: none;  /* Скрыто по умолчанию */
+    flex-direction: column;  /* Элементы по вертикали */
+  
+    height: 1000px;  /* Ограничение высоты блока */
+    max-width: 300px;
+    position: fixed;  /* Фиксированное положение */
+  
+    
+    align-items: center;
+    padding: 20px;
+    z-index: 1;  /* Для отображения поверх других элементов */
+    transition: all 0.3s ease; /* Плавный переход для появления */
+    overflow-y: auto;  /* Вертикальная прокрутка */
+  }
+
+}
+/* Отображение блока, когда есть введенный запрос */
+.item-list.active {
+  display: flex;
+}
+
+/* Стили для каждой карточки элемента */
+.item-card {
+  display: flex;
+  align-items: center;  /* Выровнять содержимое по центру */
+  justify-content: space-between;  /* Пространство между элементами */
+  background-color: #fff;
+  border:  solid #ddd;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 15px;  /* Отступ между карточками */
+  width: 100%;
+  height: 120px;
+  max-width: 400px;
+  box-sizing: border-box;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.delete{
+  background-color: red;
+  padding: 10px;
+  border-radius: 20px;
+  font-weight: 650;
+}
+.item-card:hover {
+  transform: scale(1.05);
+
+}
+
+.item-card img {
+  max-width: 60px;
+  height: auto;
+  margin-right: 15px;  /* Отступ между картинкой и текстом */
+}
+
+.item-details {
+  flex-grow: 1;  /* Дать элементу остаточное пространство */
+}
+
+.item-card h3 {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+}
+
+.item-card span {
+  display: block;
+  font-size: 18px;
+  font-weight: bold;
+  color: #e91e63;
+}
+
+/* Стили для input поиска */
+.search-input {
+  padding: 10px;
+  width: 100%;
+  max-width: 300px;
+  border-radius: 5px;
+  border:  solid #ddd;
+  color: #ddd;
+  font-size: 14px;
+}
+
+.header-basket{
+
+  display: flex;
+  align-items: center;
+}
+.header-baske a {
+color: red;
+}
+.header-basket-txt{
+  margin: 5px;
 }

@@ -1,4 +1,7 @@
-/* Review Section Slider */
+:root {
+  --main-color: gold;
+}
+
 .reviews-section {
   overflow: hidden;
   position: relative;
@@ -61,7 +64,7 @@
 .title-strong {
   font-weight: bold; /* Сделать текст жирным */
   font-size: 2em; /* Увеличить размер шрифта */
-  color: #b459db; /* Изменить цвет текста на желтый */
+  color: var(--main-color); /* Изменить цвет текста на желтый */
   text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5); /* Добавить тень к тексту */
 
   padding: 10px; /* Добавить внутренние отступы */
@@ -107,7 +110,7 @@
 
 .usluga h4 {
   font-size: 1.5rem;
-  color: #711dd9;
+  color: var(--main-color)r;
   margin: 15px 0;
 }
 
@@ -233,7 +236,7 @@
   text-transform: uppercase;
   font-weight: bold;
   letter-spacing: 2px;
-  color: #d699f0;
+  color: var(--main-color);
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Тень для лучшей читабельности */
   opacity: 0;
   transform: translateY(-20px);
@@ -245,7 +248,7 @@
   padding: 15px 30px;
   font-size: 1.2rem;
   color: #fff;
-  background-color: #9945ff;
+  background-color: var(--main-color);
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -256,7 +259,7 @@
 }
 
 .contact-btn:hover {
-  background-color: #711dd9;
+  background-color: var(--main-color);
 }
 
 @keyframes fadeInUp {

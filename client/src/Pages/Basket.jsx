@@ -57,35 +57,41 @@ export default function Basket() {
     const handlePurchase = async () => {
         try {
             await axios.post(`http://localhost:4444/orders`, { userEmail: user.email, items: basket });
-            setBasket([]); // Clear the basket after purchase
-            setTotal(0); // Reset the total
+            setBasket([]); 
+            setTotal(0);
+            alert('Ваш заказ оформлен успешно ')
         } catch (error) {
             console.error('Error completing purchase:', error);
         }
     };
 
     return (
-        <div className="basket-container">
-            <div className="basket-items">
-                {basket.length === 0 ? (
-                    <p>Корзина пуста. Перейти в <Link to="/products">Товары</Link></p>
-                ) : (
-                    basket.map((item) => (
-                        <BasketItem 
-                            key={item.code} 
-                            item={item} 
-                            onDelete={handleDelete} 
-                            onQuantityChange={handleQuantityChange} 
-                        />
-                    ))
-                )}
+        <div>
+                 <div className="title">
+                <h1>Корзина</h1>
             </div>
-            <aside className="basket-sidebar">
-                <div className="basket-total">
-                    <p>Всего: {total.toLocaleString()} руб</p>
-                    <button className="order-button" onClick={handlePurchase}>Заказать</button>
+            <div className="basket-container ">
+                <div className="basket-items">
+                    {basket.length === 0 ? (
+                        <p className="basket-link">Корзина пуста. <br /> Перейти в <Link to="/products">Товары</Link></p>
+                    ) : (
+                        basket.map((item) => (
+                            <BasketItem
+                                key={item.code}
+                                item={item}
+                                onDelete={handleDelete}
+                                onQuantityChange={handleQuantityChange}
+                            />
+                        ))
+                    )}
                 </div>
-            </aside>
+                <aside className="basket-sidebar">
+                    <div className="basket-total">
+                        <p>Всего: {total.toLocaleString()} руб</p>
+                        <button className="order-button" onClick={handlePurchase}>Заказать</button>
+                    </div>
+                </aside>
+            </div>
         </div>
     );
 }

@@ -13,16 +13,65 @@ mongoose
   .catch((err) => console.log('DB connection error:', err));
 
 
-const userSchema = new mongoose.Schema({
-  email: { type: String, required: true, unique: true },
-  name: { type: String, required: true },
-  phone: { type: String, required: true },
-  password: { type: String, required: true },
-  basket : {type :Array , require : true , default : [] }
-});
+  const userSchema = new mongoose.Schema({
+    email: { type: String, required: true, unique: true },
+    name: { type: String, required: true },
+    phone: { type: String, required: true },
+    password: { type: String, required: true },
+    favourites: { type: Array, required: true, default: [] },
+    basket : {type :Array , require : true , default : [] }
+    
+  });
 
-const User = mongoose.model('User', userSchema);
+  const User = mongoose.model('User', userSchema);
+  app.post('/favourites/:email', async (req, res) => {
+    try {
+      const { product } = req.body;
+      const { email } = req.params;
+      const user = await User.findOne({ email });
 
+      if (!user) {
+        return res.status(400).json({ message: 'Пользователь не найден' });
+      }
+      user.favourites.push(product);
+      await user.save();
+      res.status(200).json({ message: 'Товар добавлен в избранное', favourites: user.favourites });
+    } catch (err) {
+      res.status(500).json({ message: 'Server error', err });
+    }
+  });
+
+  app.get('/favourites/:email', async (req, res) => {
+    try {
+      const { email } = req.params;
+      const user = await User.findOne({ email });
+
+      if (!user) {
+        return res.status(400).json({ message: 'Пользователь не найден' });
+      }
+
+      res.status(200).json({ favourites: user.favourites });
+    } catch (err) {
+      res.status(500).json({ message: 'Server error', err });
+    }
+  });
+
+  app.delete('/favourites/:email/:code', async (req, res) => {
+    try {
+      const { email, code } = req.params;
+      const user = await User.findOne({ email });
+
+      if (!user) {
+        return res.status(400).json({ message: 'Пользователь не найден' });
+      }
+
+      user.favourites = user.favourites.filter(item => item.code.toString() !== code);
+      await user.save();
+      res.status(200).json({ message: 'Товар удален из избранного', favourites: user.favourites });
+    } catch (err) {
+      res.status(500).json({ message: 'Server error', err });
+    }
+  });
 const orderSchema = new mongoose.Schema({
   userEmail: { type: String, required: true },
   items: [{ 

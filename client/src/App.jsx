@@ -9,6 +9,7 @@ import { Contact } from './Pages/Contact'
 import Register from './Pages/Register'
 import Login from './Pages/Login'
 import Basket from './Pages/Basket'
+import Favourites from './Pages/Favourites'
 function App() {
 
 
@@ -24,6 +25,7 @@ function App() {
       <Route path='/register' element={<Register />} />
       <Route path='/login' element={<Login />} />
       <Route path='/basket' element={<Basket />} />
+      <Route path='/favourites' element={<Favourites />} />
     </Routes>
     <Footer />
 
