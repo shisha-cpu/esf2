@@ -48,7 +48,7 @@ export function Product() {
   };
 
   const handleAddToCart = (item) => {
-    axios.post(`http://localhost:4444/basket/${user.email}`, { product: item })
+    axios.post(`http://90.156.169.196:4444/basket/${user.email}`, { product: item })
       .then(res => {
         console.log(res.data);
         alert('Товар успешно добавлен в корзину');
@@ -68,13 +68,13 @@ export function Product() {
 
   const toggleFavourite = (item) => {
     if (favourites && favourites.some(fav => fav.code === item.code)) {
-      axios.delete(`http://localhost:4444/favourites/${user.email}/${item.code}`)
+      axios.delete(`http://90.156.169.196:4444/favourites/${user.email}/${item.code}`)
         .then(() => {
           setFavourites(prevFavourites => prevFavourites.filter(fav => fav.code !== item.code));
         })
         .catch(err => console.log(err));
     } else {
-      axios.post(`http://localhost:4444/favourites/${user.email}`, { product: item })
+      axios.post(`http://90.156.169.196:4444/favourites/${user.email}`, { product: item })
         .then(() => {
           setFavourites(prevFavourites => [...prevFavourites, item]);
         })

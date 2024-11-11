@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import './Favourites.css'; // Importing custom CSS for styling
+import './favourites.css'; 
 import { Link } from "react-router-dom";
 
 export default function Favourites() {
@@ -9,7 +9,7 @@ export default function Favourites() {
   const user = useSelector(state => state.user.user);
 
   useEffect(() => {
-    axios.get(`http://localhost:4444/favourites/${user.email}`)
+    axios.get(`http://90.156.169.196:4444//favourites/${user.email}`)
       .then(res => {
         setFavourites(res.data.favourites); // Access 'favourites' from the response
       })
@@ -18,8 +18,9 @@ export default function Favourites() {
 
   const handleDelete = (item)=>{
     console.log(item);
+   
     
-    axios.delete(`http://localhost:4444/favourites/${user.email}/${item.code}`)
+    axios.delete(`http://90.156.169.196:4444/favourites/${user.email}/${item.code}`)
         .then(() => {
           setFavourites(prevFavourites => prevFavourites.filter(fav => fav.code !== item.code));
         })

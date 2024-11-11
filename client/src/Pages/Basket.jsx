@@ -15,7 +15,7 @@ export default function Basket() {
 
     const fetchBasket = async () => {
         try {
-            const res = await axios.get(`http://localhost:4444/basket/${user.email}`);
+            const res = await axios.get(`http://90.156.169.196:4444/basket/${user.email}`);
             const basketWithQuantities = res.data.basket.map(item => ({
                 ...item,
                 quantity: item.quantity || 1
@@ -38,7 +38,7 @@ export default function Basket() {
 
     const handleDelete = async (code) => {
         try {
-            await axios.delete(`http://localhost:4444/basket/${user.email}/${code}`);
+            await axios.delete(`http://90.156.169.196:4444/basket/${user.email}/${code}`);
             fetchBasket();
         } catch (error) {
             console.error('Error deleting item:', error);
@@ -56,7 +56,7 @@ export default function Basket() {
 
     const handlePurchase = async () => {
         try {
-            await axios.post(`http://localhost:4444/orders`, { userEmail: user.email, items: basket });
+            await axios.post(`http://90.156.169.196:4444/orders`, { userEmail: user.email, items: basket });
             setBasket([]); 
             setTotal(0);
             alert('Ваш заказ оформлен успешно ')

@@ -27,7 +27,7 @@ const Register = () => {
         dispatch(setLoading(true));
 
         try {
-            const response = await axios.post('http://localhost:4444/register', {
+            const response = await axios.post('http://90.156.169.196:4444/register', {
                 name : username,
                 email,
                 password,
