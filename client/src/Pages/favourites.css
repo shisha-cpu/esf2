@@ -31,6 +31,7 @@
   }
   
   .favourite-item-info {
+    text-align: center;
     padding-top: 10px;
   }
   
@@ -48,4 +49,8 @@
   .favourite-item-info strong {
     color: #333;
   }
-  
+  .favor-delete{
+    color: red;
+   margin:  0 auto;
+
+  }

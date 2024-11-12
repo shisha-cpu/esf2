@@ -45,7 +45,7 @@ export default function Favourites() {
               <div className="favourite-item-info">
                 <h3><strong>{item.name}</strong></h3>
                 <p>{item.description.slice(0, 300)}...</p>
-                <button onClick={() => handleDelete(item)}>Удалить</button>
+                <button className="favor-delete" onClick={() => handleDelete(item) }>Удалить</button>
               </div>
             </div>
           ))}

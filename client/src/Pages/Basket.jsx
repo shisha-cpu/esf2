@@ -1,39 +1,37 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import './Basket.css';
+import '../Components/PhoneIcon.css';
 import { Link } from 'react-router-dom';
 
 export default function Basket() {
     const [basket, setBasket] = useState([]);
     const [total, setTotal] = useState(0);
+    const [showModal, setShowModal] = useState(false);
+    const [name, setName] = useState("");
+    const [phone, setPhone] = useState("");
+
     useEffect(() => {
         try {
-          const savedCart = JSON.parse(localStorage.getItem("cart")) || [];
-          console.log('Загруженная корзина из localStorage:', savedCart);
-      
-          // Обрабатываем фото, если они передаются как строка
-          const cleanedCart = savedCart.map(item => ({
-            ...item,
-            photo: typeof item.photo === 'string' ? item.photo.replace(/\r\n/g, ', ').split(', ') : item.photo, // Преобразуем в массив
-          }));
-          console.log('Чистая корзина:', cleanedCart);
-      
-          setBasket(cleanedCart);
-          calculateTotal(cleanedCart);
+            const savedCart = JSON.parse(localStorage.getItem("cart")) || [];
+            const cleanedCart = savedCart.map(item => ({
+                ...item,
+                photo: typeof item.photo === 'string' ? item.photo.replace(/\r\n/g, ', ').split(', ') : item.photo,
+            }));
+            setBasket(cleanedCart);
+            calculateTotal(cleanedCart);
         } catch (error) {
-          console.error('Ошибка при загрузке корзины из localStorage:', error);
+            console.error('Ошибка при загрузке корзины из localStorage:', error);
         }
-      }, []);
-      const calculateTotal = (basket) => {
+    }, []);
+
+    const calculateTotal = (basket) => {
         try {
             const totalAmount = basket.reduce((sum, item) => {
                 const price = isNaN(Number(item.price)) ? 0 : Number(item.price);
                 const quantity = isNaN(Number(item.quantity)) ? 1 : Number(item.quantity);
-                 
-                console.log(`Цена: ${price}, Количество: ${quantity}`);
                 return sum + price * quantity;
             }, 0);
-            console.log('Расчет общей суммы корзины:', totalAmount);
             setTotal(totalAmount);
         } catch (error) {
             console.error('Ошибка при расчете общей суммы корзины:', error);
@@ -43,49 +41,59 @@ export default function Basket() {
     const handleDelete = (code) => {
         try {
             const updatedBasket = basket.filter(item => item.code !== code);
-            console.log('Корзина после удаления товара:', updatedBasket);
             setBasket(updatedBasket);
             calculateTotal(updatedBasket);
         } catch (error) {
             console.error('Ошибка при удалении товара из корзины:', error);
         }
     };
+
     const handleQuantityChange = (code, newQuantity) => {
         try {
-            // Parse newQuantity as a number and ensure it's at least 1
             const parsedQuantity = isNaN(Number(newQuantity)) ? 1 : Number(newQuantity);
-            console.log('Before handleQuantityChange:', newQuantity);
-
-            console.log(`Изменение количества товара: ${code}, Новое количество: ${parsedQuantity}`);
-    
             setBasket(prevBasket => {
                 const updatedBasket = prevBasket.map(item => 
                     item.code === code ? { ...item, quantity: parsedQuantity } : item
                 );
-                console.log('Корзина после изменения количества товара:', updatedBasket);
-                calculateTotal(updatedBasket);  // Recalculate total after updating quantity
+                calculateTotal(updatedBasket);
                 return updatedBasket;
             });
-    
         } catch (error) {
             console.error('Ошибка при изменении количества товара в корзине:', error);
         }
     };
-    
-    
 
-    const handlePurchase = async () => {
+    const handlePurchase = () => {
+        setShowModal(true);
+    };
+
+    const handleOrderSubmit = async () => {
         try {
-            await axios.post(`http://90.156.169.196:4444/orders`, { items: basket });
+            const token = '7609858455:AAGBvQJSSAdw0l5pVoA_m3k4PuaqiCF8BUg';
+            const chatId = '1137493485';
+            const orderDetails = basket.map(item => 
+                `• ${item.name} x ${item.quantity} — ${item.price * item.quantity} руб`
+            ).join('\n');
+            const message = `🛒 Новый заказ:\nИмя: ${name}\nТелефон: ${phone}\n\n${orderDetails}\n\n💰 Общая сумма: ${total} руб`;
+
+            await axios.post(`https://api.telegram.org/bot${token}/sendMessage`, {
+                chat_id: chatId,
+                text: message,
+            });
+
+            alert('Ваш заказ оформлен успешно, и уведомление отправлено в Telegram.');
             setBasket([]);
             setTotal(0);
             localStorage.removeItem("cart");
-            alert('Ваш заказ оформлен успешно');
+            setShowModal(false);
+            setName("");
+            setPhone("");
+
         } catch (error) {
-            console.error('Ошибка при оформлении заказа:', error);
+            console.error('Ошибка при оформлении заказа или отправке уведомления:', error);
+            alert('Не удалось оформить заказ. Попробуйте снова.');
         }
     };
-
 
     return (
         <div>
@@ -114,6 +122,28 @@ export default function Basket() {
                     </div>
                 </aside>
             </div>
+
+            {showModal && (
+                <div className="contact-form">
+                    <div className="form-content">
+                        <h2>Контактная информация</h2>
+                        <input
+                            type="text"
+                            placeholder="Ваше имя"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                        />
+                        <input
+                            type="tel"
+                            placeholder="Ваш телефон"
+                            value={phone}
+                            onChange={(e) => setPhone(e.target.value)}
+                        />
+                        <button onClick={handleOrderSubmit}>Подтвердить заказ</button>
+                        <button className="close-button" onClick={() => setShowModal(false)}>Отмена</button>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
@@ -127,7 +157,6 @@ function BasketItem({ item, onDelete, onQuantityChange }) {
         onQuantityChange(item.code, item.quantity - 1);
     };
 
-    // Safely handling item.photo, ensuring it's a valid URL
     const photoUrl = Array.isArray(item.photo) && item.photo.length > 0 ? item.photo[0] : item.photo;
 
     return (
@@ -141,8 +170,6 @@ function BasketItem({ item, onDelete, onQuantityChange }) {
                 <div className="item-quantity">
                     <button onClick={handleDecrease}>-</button>
                     <span>{isNaN(item.quantity) ? 1 : item.quantity}</span>
-
-
                     <button onClick={handleIncrease}>+</button>
                 </div>
                 <button onClick={() => onDelete(item.code)}>Удалить</button>

@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import './header.css';
 import { Link } from 'react-router-dom';
 import logo from '../../public/img/top.svg';
+import logoMin from '../../public/img/left.svg';
 import axios from 'axios';
 
 const Header = () => {
@@ -64,8 +65,8 @@ const Header = () => {
   return (
     <div className="header">
       <div className="inner-header flex">
-        <div className="header-content container">
-          <Link to="/"><img src={logo} alt="Логотип" className="header-logo" /></Link>
+        <div className="header-content ">
+          <Link to="/"><img src={logoMin} alt="Логотип" className="header-logo" /></Link>
 
           <div className={`header-navigate ${isMenuOpen ? 'active' : ''}`}>
             <Link to="/" onClick={() => setMenuOpen(false)}>Главная</Link>

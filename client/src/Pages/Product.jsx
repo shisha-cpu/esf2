@@ -150,10 +150,12 @@ export function Product() {
           className="search"
         />
         <div>
-          <label>Цена:</label>
-          <input type="number" min="0" max="1000000" value={priceRange[0]} onChange={e => setPriceRange([Number(e.target.value), priceRange[1]])} />
-          <input type="number" min="0" max="1000000" value={priceRange[1]} onChange={e => setPriceRange([priceRange[0], Number(e.target.value)])} />
+          <br />
+          <label>Цена:</label><br />
+         от: <input type="number" min="0" max="1000000" value={priceRange[0]} onChange={e => setPriceRange([Number(e.target.value), priceRange[1]])} /> <br />
+         до: <input type="number" min="0" max="1000000" value={priceRange[1]} onChange={e => setPriceRange([priceRange[0], Number(e.target.value)])} />
         </div>
+        <br />
         <label>Выбор производителя:</label>
         <select onChange={e => setSelectedManufacturer(e.target.value)} value={selectedManufacturer}>
           <option value="">Все производители</option>
@@ -187,8 +189,7 @@ export function Product() {
                   <div className="product-btns">
                     <button className="add-btn" onClick={() => handleAddToCart(item)}>Добавить в корзину</button>
                     <button onClick={() => handleShowDetails(item)}>Подробнее</button>
-                    <button onClick={() => toggleFavourite(item)} className="favourite-btn">
-                    <span>{isFavourite ? "❤️" : "🤍"}</span></button>
+                    <button onClick={() => toggleFavourite(item)} style={{background :  0 , margin : 0 , padding : 0}}><span>{isFavourite ? "❤️" : "🤍"}</span></button>
 
                   </div>
                 </div>

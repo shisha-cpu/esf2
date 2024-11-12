@@ -21,7 +21,9 @@
     transition: transform 0.3s ease;
 }
 .product-btns{
+    max-width: 100%;
     display: flex;
+    word-break: break-all;
 }
 .product-btns button{
     margin: 5px;

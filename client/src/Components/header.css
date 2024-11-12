@@ -18,6 +18,9 @@
   justify-content: space-between;
   align-items: center;
   width: 80%;
+  padding: 0 100px;
+  max-width: 1500px;
+  margin:  0 auto;
 }
 .header-auth{
   display: flex;
@@ -29,7 +32,7 @@
 }
 
 .header-logo {
-  max-width: 100px;
+  max-width: 220px;
 }
 
 /* Стили для навигации */
@@ -48,8 +51,12 @@
 
 
 @media (max-width: 768px) {
+  .header-content{
+    width: 90%;
+   padding:  0 40px 0 0 ;
+  }
   .header-logo{
-    max-width: 60px;
+    max-width: 110px;
   }
   .header-navigate {
     position: fixed;

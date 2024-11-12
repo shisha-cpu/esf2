@@ -1,75 +1,74 @@
 /* PhoneIcon.css */
 .phone-icon {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    font-size: 2rem;
-    background-color: #007bff;
-    color: white;
-    padding: 10px;
-    border-radius: 50%;
-    cursor: pointer;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    z-index: 9999; /* Убедитесь, что иконка находится поверх других элементов */
-    pointer-events: auto; /* Разрешает взаимодействие только с иконкой */
-  }
-  
-  /* Окно контактной формы */
-  .contact-form {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 9998; /* Убедитесь, что форма находится поверх остальных элементов, но под иконкой */
-  }
-  
-  .form-content {
-    background-color: white;
-    padding: 20px;
-    border-radius: 10px;
-    width: 300px;
-    text-align: center;
-  }
-  
-  .form-content input,
-  .form-content textarea {
-    width: 100%;
-    margin-bottom: 10px;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  
-  .form-content button {
-    width: 100%;
-    padding: 10px;
-    background-color: #28a745;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .form-content button:hover {
-    background-color: #218838;
-  }
-  
-  .close-button {
-    background-color: #dc3545;
-    color: white;
-    padding: 5px 10px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-top: 10px;
-  }
-  
-  .close-button:hover {
-    background-color: #c82333;
-  }
-  
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  font-size: 2rem;
+  background-color:  #3498db;
+  color: white;
+  padding: 10px;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  z-index: 9999; /* Убедитесь, что иконка находится поверх других элементов */
+  pointer-events: auto; /* Разрешает взаимодействие только с иконкой */
+}
+
+/* Окно контактной формы */
+.contact-form {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9998; /* Убедитесь, что форма находится поверх остальных элементов, но под иконкой */
+}
+
+.form-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 300px;
+  text-align: center;
+}
+
+.form-content input,
+.form-content textarea {
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.form-content button {
+  width: 100%;
+  padding: 10px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.form-content button:hover {
+  background-color: #218838;
+}
+
+.close-button {
+  background-color: #dc3545;
+  color: white;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.close-button:hover {
+  background-color: #c82333;
+}
