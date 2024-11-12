@@ -59,7 +59,7 @@ export function Home() {
             <div className="content-section">
               <h1 className="img-title">
                 <div className="title-strong">Ортошик</div>
-                <br /> специализированный магазин товаров для людей с инвалидностью
+                <br /> специализированный магазин товаров для людей с ограниченными возможностьями 
               </h1>
             </div>
           </div>

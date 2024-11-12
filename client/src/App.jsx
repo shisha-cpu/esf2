@@ -10,6 +10,7 @@ import Register from './Pages/Register'
 import Login from './Pages/Login'
 import Basket from './Pages/Basket'
 import Favourites from './Pages/Favourites'
+import PhoneIcon from './Components/PhoneIcon'
 function App() {
 
 
@@ -28,7 +29,7 @@ function App() {
       <Route path='/favourites' element={<Favourites />} />
     </Routes>
     <Footer />
-
+    <PhoneIcon />
     </>
   )
 }

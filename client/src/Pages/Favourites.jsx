@@ -1,36 +1,40 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import './favourites.css'; 
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 export default function Favourites() {
   const [favourites, setFavourites] = useState([]);
-  const user = useSelector(state => state.user.user);
+  const [products, setProducts] = useState([]); // Add this line
+  const [cart, setCart] = useState([]); // Define setCart here
 
   useEffect(() => {
-    axios.get(`http://90.156.169.196:4444/favourites/${user.email}`)
-      .then(res => {
-        setFavourites(res.data.favourites); // Access 'favourites' from the response
-      })
+    axios.get('./data.json')
+      .then(res => setProducts(res.data)) // This will now work correctly
       .catch(err => console.log(err));
-  }, [user.email]);
+  
+    const storedFavourites = JSON.parse(localStorage.getItem("favourites")) || [];
+    const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
+  
+    console.log('Загруженные избранные:', storedFavourites);
+    setFavourites(storedFavourites);
+    setCart(storedCart); // This will work now
+  }, []);
+  
+  // useEffect(() => {
+  //   localStorage.setItem("favourites", JSON.stringify(favourites));
+  // }, [favourites]);
 
-  const handleDelete = (item)=>{
-    console.log(item);
-   
-    
-    axios.delete(`http://90.156.169.196:4444/favourites/${user.email}/${item.code}`)
-        .then(() => {
-          setFavourites(prevFavourites => prevFavourites.filter(fav => fav.code !== item.code));
-        })
-        .catch(err => console.log(err));
-  }
+  const handleDelete = (item) => {
+    const updatedFavourites = favourites.filter(fav => fav.code !== item.code);
+    setFavourites(updatedFavourites);
+  };
+
   return (
     <div className="favourites">
-       <div className="title">
+      <div className="title">
         <h1>Избранное</h1>
-        </div> 
+      </div> 
       {favourites.length > 0 ? (
         <div className="favourites-grid">
           {favourites.map((item, index) => (
@@ -41,16 +45,13 @@ export default function Favourites() {
               <div className="favourite-item-info">
                 <h3><strong>{item.name}</strong></h3>
                 <p>{item.description.slice(0, 300)}...</p>
-                <button onClick={()=>{
-                    handleDelete(item)
-                }} >Удалить</button>
+                <button onClick={() => handleDelete(item)}>Удалить</button>
               </div>
             </div>
           ))}
         </div>
       ) : (
-        
-        <p className="basket-link">Нет избранных товаров  <br /> Перейти в <Link to="/products">Товары</Link></p>
+        <p className="basket-link">Нет избранных товаров <br /> Перейти в <Link to="/products">Товары</Link></p>
       )}
     </div>
   );

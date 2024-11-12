@@ -4,7 +4,6 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 import "swiper/swiper-bundle.css";
 import './Product.css';
-import { useSelector } from "react-redux";
 
 export function Product() {
   const [products, setProducts] = useState({});
@@ -15,9 +14,8 @@ export function Product() {
   const [priceRange, setPriceRange] = useState([0, 1000000]);
   const [selectedManufacturer, setSelectedManufacturer] = useState("");
   const [visibleProductsCount, setVisibleProductsCount] = useState(20);
-  const [favourites, setFavourites] = useState([]); // Убедимся, что это пустой массив
-  
-  const user = useSelector(state => state.user.user);
+  const [favourites, setFavourites] = useState([]);
+  const [cart, setCart] = useState([]);
 
   const manufacturers = [
     "Китай", "Россия", "Akces-Med (Польша)", "Rebotec (Германия)", 
@@ -34,27 +32,48 @@ export function Product() {
     axios.get('./data.json')
       .then(res => setProducts(res.data))
       .catch(err => console.log(err));
-      
-    if (user) {
-      axios.get(`/favourites/${user.email}`)
-        .then(res => setFavourites(res.data.favourites || [])) // Убедимся, что это массив
-        .catch(err => console.log(err));
-    }
-  }, [user]);
+
+    const storedFavourites = JSON.parse(localStorage.getItem("favourites")) || [];
+    const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
+
+    setFavourites(storedFavourites);
+    setCart(storedCart);
+  }, []);
 
   const handleCategorySelect = (category) => {
     setSelectedCategory(category);
     setVisibleProductsCount(20);
   };
-
   const handleAddToCart = (item) => {
-    axios.post(`http://90.156.169.196:4444/basket/${user.email}`, { product: item })
-      .then(res => {
-        console.log(res.data);
-        alert('Товар успешно добавлен в корзину');
-      })
-      .catch(err => console.log(err));
+    try {
+      console.log('Добавление товара в корзину', item); // Логирование товара перед добавлением
+  
+      // Очистка фото данных, разбиваем их на массив
+      const cleanedPhotos = item.photo.replace(/\r\n/g, ', ').split(', ');
+  
+      // Обновляем объект товара
+      const itemToAdd = {
+        ...item,
+        photo: cleanedPhotos,  // Теперь фото — это массив
+      };
+  
+      // Обновление состояния корзины
+      const updatedCart = [...cart, itemToAdd];
+      setCart(updatedCart);
+      console.log('Обновленная корзина:', updatedCart);
+  
+      // Сохраняем обновленную корзину в localStorage
+      localStorage.setItem("cart", JSON.stringify(updatedCart));
+      console.log('Корзина сохранена в localStorage');
+      
+      alert('Товар успешно добавлен в корзину');
+    } catch (error) {
+      console.error('Ошибка при добавлении товара в корзину:', error);
+    }
   };
+  
+  
+  
 
   const handleShowDetails = (item) => {
     setSelectedItem(item);
@@ -67,21 +86,28 @@ export function Product() {
   };
 
   const toggleFavourite = (item) => {
-    if (favourites && favourites.some(fav => fav.code === item.code)) {
-      axios.delete(`http://90.156.169.196:4444/favourites/${user.email}/${item.code}`)
-        .then(() => {
-          setFavourites(prevFavourites => prevFavourites.filter(fav => fav.code !== item.code));
-        })
-        .catch(err => console.log(err));
+    let updatedFavourites;
+    
+    // Проверяем, есть ли товар в избранном
+    const isFavourite = favourites.some(fav => fav.code === item.code);
+    
+    if (isFavourite) {
+      // Удаляем товар из избранного
+      updatedFavourites = favourites.filter(fav => fav.code !== item.code);
+      console.log('Удален из избранного:', item);
     } else {
-      axios.post(`http://90.156.169.196:4444/favourites/${user.email}`, { product: item })
-        .then(() => {
-          setFavourites(prevFavourites => [...prevFavourites, item]);
-        })
-        .catch(err => console.log(err));
+      // Добавляем товар в избранное
+      updatedFavourites = [...favourites, item];
+      console.log('Добавлен в избранное:', item);
     }
-  };
+    
+    // Обновляем состояние избранных товаров
+    setFavourites(updatedFavourites);
+    // Сохраняем в localStorage
+    localStorage.setItem("favourites", JSON.stringify(updatedFavourites));
+};
 
+  
   const filteredProducts = () => {
     const allProducts = Object.values(products).flat();
     const currentProducts = selectedCategory ? products[selectedCategory] : allProducts;
@@ -110,8 +136,7 @@ export function Product() {
               key={index}
               onClick={() => handleCategorySelect(category)}
               className={selectedCategory === category ? "active" : ""}
-            >
-              <br /><br />
+            ><br /><br />
               {category}
             </li>
           ))}
@@ -125,14 +150,11 @@ export function Product() {
           className="search"
         />
         <div>
-          <label>Цена:</label><br />
-          <span>Минимум: <input type="number" min="0" max="1000000" value={priceRange[0]} onChange={e => setPriceRange([Number(e.target.value), priceRange[1]])} className="manual-input" /> руб.</span>
-          <input type="range" min="0" max="1000000" value={priceRange[0]} onChange={e => setPriceRange([Number(e.target.value), priceRange[1]])} />
-          <br />
-          <span>Максимум: <input type="number" min="0" max="1000000" value={priceRange[1]} onChange={e => setPriceRange([priceRange[0], Number(e.target.value)])} className="manual-input" /> руб.</span>
-          <input type="range" min="0" max="1000000" value={priceRange[1]} onChange={e => setPriceRange([priceRange[0], Number(e.target.value)])} />
+          <label>Цена:</label>
+          <input type="number" min="0" max="1000000" value={priceRange[0]} onChange={e => setPriceRange([Number(e.target.value), priceRange[1]])} />
+          <input type="number" min="0" max="1000000" value={priceRange[1]} onChange={e => setPriceRange([priceRange[0], Number(e.target.value)])} />
         </div>
-        <label><strong>Выбор производителя:</strong></label>
+        <label>Выбор производителя:</label>
         <select onChange={e => setSelectedManufacturer(e.target.value)} value={selectedManufacturer}>
           <option value="">Все производители</option>
           {manufacturers.map((manufacturer, index) => (
@@ -148,48 +170,36 @@ export function Product() {
         <div className="category">
           <h2>{selectedCategory ? selectedCategory : "Все товары"}</h2>
           <div className="product-cards">
-            {filteredProducts().length > 0 ? (
-              filteredProducts().map((item, itemIndex) => {
-                const images = item.photo.replace(/\\r\\n/g, '\n').split('\n');
-                const isFavourite = favourites && favourites.some(fav => fav.code === item.code);
-                return (
-                  <div key={itemIndex} className="product-card">
-                    <Swiper key={selectedCategory} modules={[Navigation]} navigation spaceBetween={10} slidesPerView={1}>
-                      {images.map((url, imgIndex) => (
-                        <SwiperSlide key={imgIndex}>
-                          <img src={url} className="product-img" alt={`${item.name} image ${imgIndex + 1}`} />
-                        </SwiperSlide>
-                      ))}
-                    </Swiper>
-                    <h3>{item.name}</h3>
-                    <p><strong>Цена:</strong> {item.price} руб.</p>
-                    <div className="product-btns">
-                      <button className="add-btn" onClick={() => {
-                        if (!user) {
-                          alert('Для заказа необходимо авторизироваться');
-                        }
-                        handleAddToCart(item);
-                      }}>Добавить в корзину</button>
-                      <button onClick={() => handleShowDetails(item)}>Подробнее</button>
-                      <button onClick={() => toggleFavourite(item)} className="favourite-btn">
-           
-                        <span>{isFavourite ? "❤️" : "🤍"}</span>
-                      </button>
-                    </div>
+            {filteredProducts().map((item, itemIndex) => {
+              const images = item.photo.replace(/\\r\\n/g, '\n').split('\n');
+              const isFavourite = favourites.some(fav => fav.code === item.code);
+              return (
+                <div key={itemIndex} className="product-card">
+                  <Swiper modules={[Navigation]} navigation spaceBetween={10} slidesPerView={1}>
+                    {images.map((url, imgIndex) => (
+                      <SwiperSlide key={imgIndex}>
+                        <img src={url} className="product-img" alt={`${item.name} image ${imgIndex + 1}`} />
+                      </SwiperSlide>
+                    ))}
+                  </Swiper>
+                  <h3>{item.name}</h3>
+                  <p><strong>Цена:</strong> {item.price} руб.</p>
+                  <div className="product-btns">
+                    <button className="add-btn" onClick={() => handleAddToCart(item)}>Добавить в корзину</button>
+                    <button onClick={() => handleShowDetails(item)}>Подробнее</button>
+                    <button onClick={() => toggleFavourite(item)} className="favourite-btn">
+                    <span>{isFavourite ? "❤️" : "🤍"}</span></button>
+
                   </div>
-                );
-              })
-            ) : (
-              <p>Загрузка...</p>
-            )}
+                </div>
+              );
+            })}
           </div>
-          <div className="load-more-sect">
-            {filteredProducts().length >= visibleProductsCount && (
-              <button onClick={loadMoreProducts} className="load-more">
-                Показать еще
-              </button>
-            )}
-          </div>
+          {filteredProducts().length >= visibleProductsCount && (
+            <button onClick={loadMoreProducts} className="load-more">
+              Показать еще
+            </button>
+          )}
         </div>
       </div>
 

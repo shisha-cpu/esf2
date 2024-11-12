@@ -49,7 +49,7 @@ export function Contact() {
         </div>
       </div>
 
-      <div className="title">
+      {/* <div className="title">
         <h1>Обратная связь :</h1>
         <div className="form">
           <form>
@@ -68,14 +68,13 @@ export function Contact() {
             <button type="submit" className="submit-btn">Отправить</button>
           </form>
         </div>
-      </div>
+      </div> */}
 
       <div className="title">
         <h1>Мы принимаем к оплате платежные системы :</h1>
-        <img
-          src="https://static.insales-cdn.com/files/1/4494/33091982/original/blobid0-1706870392781.png"
-          alt="Платежные системы"
-        />
+        <div className="pass-list">
+          <img style={{maxWidth : '600px'}} src="https://i0.wp.com/virtuoso-krd.ru/wp-content/uploads/2022/08/Pay-Keeper.png?w=1610&ssl=1" alt="" />
+        </div>
       </div>
     </div>
   );

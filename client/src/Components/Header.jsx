@@ -1,9 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './header.css';
-import { Link, Navigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import logo from '../../public/img/top.svg';
-import { useDispatch, useSelector } from 'react-redux';
-import { clearUser } from '../store/slices/userSlice';
 import axios from 'axios';
 
 const Header = () => {
@@ -11,35 +9,27 @@ const Header = () => {
   const [isMenuOpen, setMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredItems, setFilteredItems] = useState([]);
-  const user = useSelector(state => state.user);
-  const dispatch = useDispatch();
-  
-  const searchRef = useRef(null);  // Ссылка на input для поиска
-  const itemListRef = useRef(null);  // Ссылка на список товаров
+  const [basket, setBasket] = useState(JSON.parse(localStorage.getItem('basket')) || []);
+  const [favourites, setFavourites] = useState(JSON.parse(localStorage.getItem('favourites')) || []);
 
-  const toggleMenu = () => {
-    setMenuOpen(!isMenuOpen);
-  };
+  const searchRef = useRef(null);
+  const itemListRef = useRef(null);
+
+  const toggleMenu = () => setMenuOpen(!isMenuOpen);
 
   useEffect(() => {
     axios.get('./data.json')
       .then(res => {
         setItems(res.data);
-        setFilteredItems(res.data);  // Initially show all items
+        setFilteredItems(res.data);
       })
       .catch(err => console.log(err));
   }, []);
 
-  const deleteUser = () => {
-    dispatch(clearUser());
-    return <Navigate to="/" />;
-  };
-
   const handleSearch = (e) => {
     const query = e.target.value.toLowerCase();
     setSearchQuery(query);
-    
-    // Filter items based on the search query
+
     const filtered = Object.values(items).flat().filter(item => {
       return (
         item.name.toLowerCase().includes(query) || 
@@ -65,6 +55,12 @@ const Header = () => {
     };
   }, []);
 
+  // Сохранение корзины и избранного в localStorage
+  useEffect(() => {
+    localStorage.setItem('basket', JSON.stringify(basket));
+    localStorage.setItem('favourites', JSON.stringify(favourites));
+  }, [basket, favourites]);
+
   return (
     <div className="header">
       <div className="inner-header flex">
@@ -80,7 +76,6 @@ const Header = () => {
 
           <div className="header-auth">
             <div className="search-btn" ref={searchRef}>
-             
               <input
                 type="text"
                 placeholder=" 🔍"
@@ -89,40 +84,28 @@ const Header = () => {
                 className="search-input"
               />
               <div className={`item-list ${filteredItems.length > 0 ? 'active' : ''}`} ref={itemListRef}>
-  {filteredItems.length > 0 ? (
-    filteredItems.map((item, index) => (
-      <Link to='products  '>
-            <div key={index} className="item-card">
-        <img src={item.photo.split("\r\n")[0]} alt={item.name} />
-        <div className="item-details">
-          <h3>{item.name}</h3>
-          <span>{item.price} ₽</span>
-        </div>
-      </div>
-      </Link>
-    ))
-  ) : (
-    <p>Товары не найдены.</p>
-  )}
-</div>
-
+                {filteredItems.length > 0 ? (
+                  filteredItems.map((item, index) => (
+                    <Link to='/products' key={index}>
+                      <div className="item-card">
+                        <img src={item.photo.split("\r\n")[0]} alt={item.name} />
+                        <div className="item-details">
+                          <h3>{item.name}</h3>
+                          <span>{item.price} ₽</span>
+                        </div>
+                      </div>
+                    </Link>
+                  ))
+                ) : (
+                  <p>Товары не найдены.</p>
+                )}
+              </div>
             </div>
-        <div className="header-basket">
-        {
-              user.user ? 
-              <>
-                <Link    className='header-basket-txt' style={{fontSize:'25px'}}  to="/basket">🛒</Link>
-                <Link    className='header-basket-txt' style={{fontSize:'25px'}} to="/favourites">🤍</Link>
-                <button  className='header-basket-txt delete' onClick={deleteUser}>Выйти</button>
-              </> 
-              :
-              <>
-                <Link className='header-basket-txt' to="/register">Регистрация</Link>
-                <Link className='header-basket-txt' to="/login">Вход</Link>
-              </>
-            }
-        </div>
-        
+
+            <div className="header-basket">
+              <Link className='header-basket-txt' style={{fontSize:'25px'}} to="/basket">🛒</Link>
+              <Link className='header-basket-txt' style={{fontSize:'25px'}} to="/favourites">🤍</Link>
+            </div>
           </div>
 
           <div className="burger-menu" onClick={toggleMenu}>
@@ -130,7 +113,6 @@ const Header = () => {
           </div>
         </div>
       </div>
-
 
       <div className="qw">
         <svg

@@ -247,7 +247,8 @@ label{
 }
 @media (max-width : 500px) {
     .product-img{
-        height: 240px;
+        width: 100%;
+        height: 260px;
 
     }
 }
