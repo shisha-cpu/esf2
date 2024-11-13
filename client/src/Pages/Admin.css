@@ -1,0 +1,17 @@
+
+.admin-content{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.admin-content input{
+    max-width: 200px;
+    padding: 10px;
+}
+.admin-content button{
+    max-width: 200px;
+    padding: 10px;
+    background-color: rgb(87, 212, 87);
+    margin-top: 10px;
+    border-radius: 10px;
+}

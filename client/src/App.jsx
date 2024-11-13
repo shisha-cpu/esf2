@@ -11,6 +11,8 @@ import Login from './Pages/Login'
 import Basket from './Pages/Basket'
 import Favourites from './Pages/Favourites'
 import PhoneIcon from './Components/PhoneIcon'
+import Admin from './Pages/Admin'
+
 function App() {
 
 
@@ -21,12 +23,14 @@ function App() {
     <Routes>
       <Route path='/' element={<Home />} />
       <Route path='/products' element={<Product />} />
+      <Route path='/products/:categoryName' element={<Product />} />
       <Route path='/about' element={<About />} />
       <Route path='/contact' element={<Contact />} />
       <Route path='/register' element={<Register />} />
       <Route path='/login' element={<Login />} />
       <Route path='/basket' element={<Basket />} />
       <Route path='/favourites' element={<Favourites />} />
+      <Route path='/panel' element={<Admin />} />
     </Routes>
     <Footer />
     <PhoneIcon />

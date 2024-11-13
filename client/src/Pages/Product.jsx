@@ -4,6 +4,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 import "swiper/swiper-bundle.css";
 import './Product.css';
+import { useParams } from "react-router-dom"; 
 
 export function Product() {
   const [products, setProducts] = useState({});
@@ -16,7 +17,9 @@ export function Product() {
   const [visibleProductsCount, setVisibleProductsCount] = useState(20);
   const [favourites, setFavourites] = useState([]);
   const [cart, setCart] = useState([]);
-
+  const { categoryName } = useParams();
+ 
+  
   const manufacturers = [
     "Китай", "Россия", "Akces-Med (Польша)", "Rebotec (Германия)", 
     "Barry (Тайвань)", "Я могу (Россия)", "Ortonica (Китай)", 
@@ -29,21 +32,32 @@ export function Product() {
   ];
 
   useEffect(() => {
-    axios.get('./data.json')
-      .then(res => setProducts(res.data))
+    window.scrollTo(0, 0); 
+    axios.get('../data.json')
+      .then(res => {
+        console.log(res.data);
+        setProducts(res.data);
+      })
       .catch(err => console.log(err));
-
+  
     const storedFavourites = JSON.parse(localStorage.getItem("favourites")) || [];
     const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
-
+  
     setFavourites(storedFavourites);
     setCart(storedCart);
   }, []);
+  
 
   const handleCategorySelect = (category) => {
     setSelectedCategory(category);
     setVisibleProductsCount(20);
   };
+useEffect(()=>{
+  if (categoryName) {
+    handleCategorySelect(categoryName)
+    
+  }
+},[])
   const handleAddToCart = (item) => {
     try {
       console.log('Добавление товара в корзину', item); // Логирование товара перед добавлением
@@ -107,20 +121,22 @@ export function Product() {
     localStorage.setItem("favourites", JSON.stringify(updatedFavourites));
 };
 
-  
-  const filteredProducts = () => {
-    const allProducts = Object.values(products).flat();
-    const currentProducts = selectedCategory ? products[selectedCategory] : allProducts;
+const filteredProducts = () => {
+  const allProducts = Object.values(products).flat();
 
-    return currentProducts
-      .filter(item => {
-        const matchesSearch = item.name.toLowerCase().includes(searchTerm.toLowerCase());
-        const matchesPrice = item.price >= priceRange[0] && item.price <= priceRange[1];
-        const matchesManufacturer = selectedManufacturer ? item.manufacturer === selectedManufacturer : true;
-        return matchesSearch && matchesPrice && matchesManufacturer;
-      })
-      .slice(0, visibleProductsCount);
-  };
+  // Ensure that products[selectedCategory] is valid
+  const currentProducts = selectedCategory && products[selectedCategory] ? products[selectedCategory] : allProducts;
+
+  return currentProducts
+    .filter(item => {
+      const matchesSearch = item.name && item.name.toLowerCase().includes(searchTerm.toLowerCase());
+      const matchesPrice = item.price >= priceRange[0] && item.price <= priceRange[1];
+      const matchesManufacturer = selectedManufacturer ? item.manufacturer === selectedManufacturer : true;
+      return matchesSearch && matchesPrice && matchesManufacturer;
+    })
+    .slice(0, visibleProductsCount);
+};
+
 
   const loadMoreProducts = () => {
     setVisibleProductsCount(prevCount => prevCount + 20);
