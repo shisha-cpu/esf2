@@ -65,7 +65,7 @@ function Admin() {
       setJsonText(JSON.stringify(result, null, 2));
   
       // Отправка данных на сервер
-      fetch('http://90.156.169.196:4444/data', {
+      fetch('http://90.156.169.196:4444/update-data', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
