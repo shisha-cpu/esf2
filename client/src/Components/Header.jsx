@@ -19,7 +19,7 @@ const Header = () => {
   const toggleMenu = () => setMenuOpen(!isMenuOpen);
 
   useEffect(() => {
-    axios.get('./data.json')
+    axios.get('http://90.156.169.196:4444/data')
       .then(res => {
         setItems(res.data);
         setFilteredItems(res.data);

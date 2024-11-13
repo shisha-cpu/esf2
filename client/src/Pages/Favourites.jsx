@@ -9,7 +9,7 @@ export default function Favourites() {
   const [cart, setCart] = useState([]); // Define setCart here
 
   useEffect(() => {
-    axios.get('./data.json')
+    axios.get('http://90.156.169.196:4444/data')
       .then(res => setProducts(res.data)) // This will now work correctly
       .catch(err => console.log(err));
   
