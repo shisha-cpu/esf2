@@ -33,7 +33,7 @@ export function Product() {
 
   useEffect(() => {
     window.scrollTo(0, 0); 
-    axios.get('http://localhost:4444/data')
+    axios.get('http://90.156.169.196:4444/data')
       .then(res => {
         console.log(res.data);
         setProducts(res.data);
