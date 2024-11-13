@@ -10,7 +10,12 @@
 .map{
     margin-left: 20px;
 }
-
+.contacts{
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  list-style-type: none
+}
 @media (max-width:750px) {
     .contact-content{
         display: block;

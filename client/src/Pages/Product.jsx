@@ -33,7 +33,7 @@ export function Product() {
 
   useEffect(() => {
     window.scrollTo(0, 0); 
-    axios.get('../data.json')
+    axios.get('http://localhost:4444/data')
       .then(res => {
         console.log(res.data);
         setProducts(res.data);
@@ -123,24 +123,28 @@ useEffect(()=>{
 
 const filteredProducts = () => {
   const allProducts = Object.values(products).flat();
-
-  // Ensure that products[selectedCategory] is valid
   const currentProducts = selectedCategory && products[selectedCategory] ? products[selectedCategory] : allProducts;
 
-  return currentProducts
-    .filter(item => {
-      const matchesSearch = item.name && item.name.toLowerCase().includes(searchTerm.toLowerCase());
-      const matchesPrice = item.price >= priceRange[0] && item.price <= priceRange[1];
-      const matchesManufacturer = selectedManufacturer ? item.manufacturer === selectedManufacturer : true;
-      return matchesSearch && matchesPrice && matchesManufacturer;
-    })
-    .slice(0, visibleProductsCount);
+  const filtered = currentProducts.filter(item => {
+    const matchesSearch = item.name && item.name.toLowerCase().includes(searchTerm.toLowerCase());
+    
+    // Check if the price is "Цена по запросу"
+    const matchesPrice = item.price === "Цена по запросу" || (item.price >= priceRange[0] && item.price <= priceRange[1]);
+    
+    const matchesManufacturer = selectedManufacturer ? item.manufacturer === selectedManufacturer : true;
+
+    return matchesSearch && matchesPrice && matchesManufacturer;
+  }).slice(0, visibleProductsCount);
+
+  console.log('Filtered Products:', filtered); // Log the filtered products
+  return filtered;
 };
 
 
   const loadMoreProducts = () => {
     setVisibleProductsCount(prevCount => prevCount + 20);
   };
+
 
   return (
     <div className="product-page">
@@ -182,43 +186,47 @@ const filteredProducts = () => {
       </aside>
 
       <div className="product-list">
-        <div className="title">
-          <h1>Наши товары</h1>
-        </div>
-        <div className="category">
-          <h2>{selectedCategory ? selectedCategory : "Все товары"}</h2>
-          <div className="product-cards">
-            {filteredProducts().map((item, itemIndex) => {
-              const images = item.photo.replace(/\\r\\n/g, '\n').split('\n');
-              const isFavourite = favourites.some(fav => fav.code === item.code);
-              return (
-                <div key={itemIndex} className="product-card">
-                  <Swiper modules={[Navigation]} navigation spaceBetween={10} slidesPerView={1}>
-                    {images.map((url, imgIndex) => (
-                      <SwiperSlide key={imgIndex}>
-                        <img src={url} className="product-img" alt={`${item.name} image ${imgIndex + 1}`} />
-                      </SwiperSlide>
-                    ))}
-                  </Swiper>
-                  <h3>{item.name}</h3>
-                  <p><strong>Цена:</strong> {item.price} руб.</p>
-                  <div className="product-btns">
-                    <button className="add-btn" onClick={() => handleAddToCart(item)}>Добавить в корзину</button>
-                    <button onClick={() => handleShowDetails(item)}>Подробнее</button>
-                    <button onClick={() => toggleFavourite(item)} style={{background :  0 , margin : 0 , padding : 0}}><span>{isFavourite ? "❤️" : "🤍"}</span></button>
-
-                  </div>
-                </div>
-              );
-            })}
+  <div className="title">
+    <h1>Наши товары</h1>
+  </div>
+  <div className="category">
+    <h2>{selectedCategory ? selectedCategory : "Все товары"}</h2>
+    <div className="product-cards">
+      {filteredProducts().map((item, itemIndex) => {
+        const images = item.photo.replace(/\\r\\n/g, '\n').split('\n');
+        const isFavourite = favourites.some(fav => fav.code === item.code);
+        
+        // Check if price is a number or a string like "Цена по запросу"
+        const priceDisplay = isNaN(item.price) ? "Цена по запросу" : `${item.price} руб.`;
+        
+        return (
+          <div key={itemIndex} className="product-card">
+            <Swiper modules={[Navigation]} navigation spaceBetween={10} slidesPerView={1}>
+              {images.map((url, imgIndex) => (
+                <SwiperSlide key={imgIndex}>
+                  <img src={url} className="product-img" alt={`${item.name} image ${imgIndex + 1}`} />
+                </SwiperSlide>
+              ))}
+            </Swiper>
+            <h3>{item.name}</h3>
+            <p><strong>Цена:</strong> {priceDisplay}</p>
+            <div className="product-btns">
+              <button className="add-btn" onClick={() => handleAddToCart(item)}>Добавить в корзину</button>
+              <button onClick={() => handleShowDetails(item)}>Подробнее</button>
+              <button onClick={() => toggleFavourite(item)} style={{background :  0 , margin : 0 , padding : 0}}><span>{isFavourite ? "❤️" : "🤍"}</span></button>
+            </div>
           </div>
-          {filteredProducts().length >= visibleProductsCount && (
-            <button onClick={loadMoreProducts} className="load-more">
-              Показать еще
-            </button>
-          )}
-        </div>
-      </div>
+        );
+      })}
+    </div>
+    {filteredProducts().length >= visibleProductsCount && (
+      <button onClick={loadMoreProducts} className="load-more">
+        Показать еще
+      </button>
+    )}
+  </div>
+</div>
+
 
       {showModal && selectedItem && (
         <div className="modal">

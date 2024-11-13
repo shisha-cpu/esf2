@@ -7,7 +7,7 @@ function Admin() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [file, setFile] = useState(null);
   const [jsonData, setJsonData] = useState(null);
-  const [jsonText, setJsonText] = useState('');  // State to hold the JSON string for display
+  const [jsonText, setJsonText] = useState('');  
 
   const handlePasswordChange = (event) => {
     setPassword(event.target.value);
@@ -36,20 +36,16 @@ function Admin() {
       const workbook = XLSX.read(data, { type: 'array' });
       const sheetName = workbook.SheetNames[0];
       const sheet = workbook.Sheets[sheetName];
-
-      // Преобразуем таблицу в массив объектов
+  
       const rawData = XLSX.utils.sheet_to_json(sheet, { header: 1 });
-
       let result = {};
       let currentCategory = '';
-
+  
       rawData.forEach((row) => {
         if (row[0] && !row[1] && !row[2]) {
-          // Если строка содержит заголовок категории (и не имеет других данных в строке)
           currentCategory = row[0].trim();
           result[currentCategory] = [];
         } else if (currentCategory && row[0] && row[1]) {
-          // Если строка содержит данные продукта
           const product = {
             photo: row[0] || '',
             manufacturer: row[1] || '',
@@ -64,24 +60,25 @@ function Admin() {
           result[currentCategory].push(product);
         }
       });
-
-      // Сохраняем данные в состояние
+  
       setJsonData(result);
-      setJsonText(JSON.stringify(result, null, 2));  // Set the JSON text for display
-
-      // Check if the file exists and delete it before writing new data
-      const filePath = 'public/data.json';
-      if (fs.existsSync(filePath)) {
-        fs.unlinkSync(filePath);  // Delete the old file
-        console.log('Old data.json file deleted');
-      }
-
-      // Сохраняем данные в новый файл
-      fs.writeFileSync(filePath, JSON.stringify(result, null, 2), 'utf8');
-      console.log('Data has been written to data.json');
+      setJsonText(JSON.stringify(result, null, 2));
+  
+      // Отправка данных на сервер
+      fetch('http://localhost:4444/update-data', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(result),
+      })
+        .then((response) => response.json())
+        .then((data) => console.log('Data saved on server:', data))
+        .catch((error) => console.error('Error saving data:', error));
     };
     reader.readAsArrayBuffer(file);
   };
+  
 
   const handleDownload = () => {
     if (jsonData) {
