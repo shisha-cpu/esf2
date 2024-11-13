@@ -7,7 +7,7 @@ export function ImageGallery() {
     const [products, setProducts] = useState({});
 
     useEffect(() => {
-        axios.get('http://localhost:4444/data')
+        axios.get('http://90.156.169.196:4444/data')
             .then(res => setProducts(res.data))
             .catch(err => console.log(err));
     }, []);
