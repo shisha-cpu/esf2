@@ -30,9 +30,11 @@
 
   color: white;
 }
-
+.contact-list{
+  margin-top: 10px !important;
+}
 .header-logo {
-  max-width: 220px;
+  max-width: 160px;
 }
 
 /* Стили для навигации */
@@ -64,7 +66,8 @@
     right: 0;
     height: 100vh;
     width: 250px;
-    background-color: rgba(0, 0, 0, 0.9);
+    background-color: var(--main-color);;
+
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -80,8 +83,9 @@
 
   .header-navigate a {
     margin-bottom: 20px;
-    font-size: 24px;
-    color: white;
+    font-weight: 500;
+    font-size: 27px;
+    color: rgb(10, 10, 10);
   }
 }
 

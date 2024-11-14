@@ -66,13 +66,14 @@ const Header = () => {
     <div className="header">
       <div className="inner-header flex">
         <div className="header-content ">
-          <Link to="/"><img src={logoMin} alt="Логотип" className="header-logo" /></Link>
+          <Link to="/"><img src={logo} alt="Логотип" className="header-logo" /></Link>
 
           <div className={`header-navigate ${isMenuOpen ? 'active' : ''}`}>
             <Link to="/" onClick={() => setMenuOpen(false)}>Главная</Link>
             <Link to="/products" onClick={() => setMenuOpen(false)}>Товары</Link>
             <Link to="/about" onClick={() => setMenuOpen(false)}>О нас</Link>
             <Link to="/contact" onClick={() => setMenuOpen(false)}>Контакты</Link>
+            <Link to="/payment" onClick={() => setMenuOpen(false)}>Оплата и доставка</Link>
           </div>
 
           <div className="header-auth">

@@ -60,4 +60,37 @@
   .contact .form .submit-btn:hover {
     background-color: #45a049;
   }
-  
+  .pass-list{
+    display: flex;
+    justify-content: center;
+  }
+  .c-img1{
+    max-width: 600px;
+  }
+  .c-img2{
+    max-width: 130px;
+  }
+  @media (max-width :750px) {
+    .c-img1{
+      max-width: 400px;
+    }
+    .c-img2{
+      max-width: 110px;
+    }
+  }
+  @media (max-width :510px) {
+    .c-img1{
+      max-width: 300px;
+    }
+    .c-img2{
+      max-width: 90px;
+    }
+  }
+  @media (max-width :390px) {
+    .c-img1{
+      max-width: 250px;
+    }
+    .c-img2{
+      max-width: 70px;
+    }
+  }

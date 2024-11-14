@@ -12,8 +12,12 @@ const Footer = () => {
   return (
     <footer className="footer">
       <div className="footer-container">
+        <p></p>
         <div className="contact-info">
+          Cайт несет информационный характер и не является публичной офертой . Цены на сайте привязаны к курсу валют и не окончательны , полную стоимость можно получить связавшись с нами  любым удобным для вас способом .
+
           <ul className="contact-list">
+            
           <p>© 2024. Все права защищены.</p>
             {/* <li>Email: example@mail.com</li> <br />
             <li>Телефон: +7 (999) 999-99-99</li> <br />

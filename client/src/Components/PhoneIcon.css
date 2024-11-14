@@ -1,20 +1,37 @@
+
 /* PhoneIcon.css */
 .phone-icon {
   position: fixed;
   bottom: 20px;
-  right: 20px;
+  right: 8px;
   font-size: 2rem;
-  background-color:  #3498db;
+
   color: white;
-  padding: 10px;
+  padding:  10px 10px 12px 10px ;
   border-radius: 50%;
   cursor: pointer;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  z-index: 9999; /* Убедитесь, что иконка находится поверх других элементов */
-  pointer-events: auto; /* Разрешает взаимодействие только с иконкой */
+
+  z-index: 9999;
+  pointer-events: auto;
 }
 
-/* Окно контактной формы */
+/* Перемещение иконок WhatsApp выше телефона */
+.whatsapp-icons {
+  position: fixed;
+  bottom: 100px; /* Расположение выше на экране, чем иконка телефона */
+  right: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 10000; /* Убедитесь, что иконки WhatsApp поверх других элементов */
+}
+
+.whatsapp-icon {
+  width: 64px;
+  height: 64px;
+  cursor: pointer;
+}
+
 .contact-form {
   position: fixed;
   top: 0;
@@ -25,7 +42,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 9998; /* Убедитесь, что форма находится поверх остальных элементов, но под иконкой */
+  z-index: 9998;
 }
 
 .form-content {

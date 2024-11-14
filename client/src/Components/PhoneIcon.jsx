@@ -56,7 +56,13 @@ const PhoneIcon = () => {
   return (
     <>
       <div className="phone-icon" onClick={toggleForm}>
-        📞
+      <img src="../img/1.png" alt="WhatsApp" className="whatsapp-icon" />
+      </div>
+
+      <div className="whatsapp-icons">
+        <a href="https://wa.me/79156234300" target="_blank" rel="noopener noreferrer">
+          <img src="../img/watsapp.png" alt="WhatsApp" className="whatsapp-icon" />
+        </a>
       </div>
 
       {isFormVisible && (

@@ -12,7 +12,7 @@ import Basket from './Pages/Basket'
 import Favourites from './Pages/Favourites'
 import PhoneIcon from './Components/PhoneIcon'
 import Admin from './Pages/Admin'
-
+import Payment from './Pages/Payment'
 function App() {
 
 
@@ -31,6 +31,7 @@ function App() {
       <Route path='/basket' element={<Basket />} />
       <Route path='/favourites' element={<Favourites />} />
       <Route path='/panel' element={<Admin />} />
+      <Route path='/payment' element={<Payment />} />
     </Routes>
     <Footer />
     <PhoneIcon />

@@ -75,7 +75,8 @@ export function Contact() {
       <div className="title">
         <h1>Мы принимаем к оплате платежные системы :</h1>
         <div className="pass-list">
-          <img style={{maxWidth : '600px'}} src="https://i0.wp.com/virtuoso-krd.ru/wp-content/uploads/2022/08/Pay-Keeper.png?w=1610&ssl=1" alt="" />
+          <img  className='c-img1' src="https://i0.wp.com/virtuoso-krd.ru/wp-content/uploads/2022/08/Pay-Keeper.png?w=1610&ssl=1" alt="" />
+          <img  className='c-img2' src="../img/sert.jfif" alt="" />
         </div>
       </div>
     </div>
