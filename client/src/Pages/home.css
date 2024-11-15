@@ -273,7 +273,7 @@
 
 @media (max-width:650px) {
   .img-title{
-    font-size: 1.5em;
+    font-size: 1.4em;
   }
 }
 
@@ -320,3 +320,37 @@
   color: #333;
 }
 
+.pass-list{
+  display: flex;
+  justify-content: center;
+}
+.c-img1{
+  max-width: 600px;
+}
+.c-img2{
+  max-width: 130px;
+}
+@media (max-width :750px) {
+  .c-img1{
+    max-width: 400px;
+  }
+  .c-img2{
+    max-width: 110px;
+  }
+}
+@media (max-width :510px) {
+  .c-img1{
+    max-width: 300px;
+  }
+  .c-img2{
+    max-width: 90px;
+  }
+}
+@media (max-width :390px) {
+  .c-img1{
+    max-width: 170px !important;
+  }
+  .c-img2{
+    max-width: 50px !important;
+  }
+}

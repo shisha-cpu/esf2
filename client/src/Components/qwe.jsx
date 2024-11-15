@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react'; 
 import './header.css';
 import { Link } from 'react-router-dom';
 import logo from '../../public/img/top.svg';
@@ -13,6 +13,7 @@ const Header = () => {
   const [basket, setBasket] = useState(JSON.parse(localStorage.getItem('basket')) || []);
   const [favourites, setFavourites] = useState(JSON.parse(localStorage.getItem('favourites')) || []);
   const [showInput, setShowInput] = useState(false);
+  let preventClose = false;
   const searchRef = useRef(null);
   const itemListRef = useRef(null);
 
@@ -39,8 +40,7 @@ const Header = () => {
     });
     setFilteredItems(filtered);
   };
-  let preventClose = false;
-  // Закрытие списка товаров при клике вне input или блока
+
   useEffect(() => {
     const handleClickOutside = (e) => {
       // Если закрытие заблокировано, просто выходим из функции
@@ -66,12 +66,13 @@ const Header = () => {
       document.removeEventListener('click', handleClickOutside);
     };
   }, []);
+  
 
-  // Сохранение корзины и избранного в localStorage
   useEffect(() => {
     localStorage.setItem('basket', JSON.stringify(basket));
     localStorage.setItem('favourites', JSON.stringify(favourites));
   }, [basket, favourites]);
+console.log(showInput);
 
   return (
     <div className="header">
@@ -88,6 +89,7 @@ const Header = () => {
           </div>
 
           <div className="header-auth">
+ 
           <div className="search-btn" ref={searchRef}>
     {!showInput ? (
       <img
@@ -132,9 +134,10 @@ const Header = () => {
     </div>
   </div>
 
+
             <div className="header-basket">
-            <Link className='header-basket-txt' style={{ width: '35px' }} to="/basket"><img src="./img/basket1.png" alt="" /></Link>
-            <Link className='header-basket-txt' style={{ fontSize: '25px' }} to="/favourites">🖤</Link>
+              <Link className='header-basket-txt' style={{ width: '35px' }} to="/basket"><img src="./img/basket1.png" alt="" /></Link>
+              <Link className='header-basket-txt' style={{ fontSize: '25px' }} to="/favourites">🖤</Link>
             </div>
           </div>
 
@@ -142,30 +145,6 @@ const Header = () => {
             <div className={`burger ${isMenuOpen ? 'open' : ''}`}></div>
           </div>
         </div>
-      </div>
-
-      <div className="qw">
-        <svg
-          className="waves"
-          xmlns="http://www.w3.org/2000/svg"
-          xmlnsXlink="http://www.w3.org/1999/xlink"
-          viewBox="0 24 150 28"
-          preserveAspectRatio="none"
-          shapeRendering="auto"
-        >
-          <defs>
-            <path
-              id="gentle-wave"
-              d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z"
-            />
-          </defs>
-          <g className="parallax">
-            <use xlinkHref="#gentle-wave" x="48" y="0" fill="rgba(255,255,255,0.7)" />
-            <use xlinkHref="#gentle-wave" x="48" y="3" fill="rgba(255,255,255,0.5)" />
-            <use xlinkHref="#gentle-wave" x="48" y="5" fill="rgba(255,255,255,0.3)" />
-            <use xlinkHref="#gentle-wave" x="48" y="7" fill="#fff" />
-          </g>
-        </svg>
       </div>
     </div>
   );
