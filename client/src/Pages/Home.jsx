@@ -51,8 +51,7 @@ export function Home() {
 
   return (
     <section className="main container">
-      {/* Main image section */}
-      <section>
+    <section>
         <div className="main-img">
           <img src="./img/main.jpg" alt="background" />
           <div className="overlay">

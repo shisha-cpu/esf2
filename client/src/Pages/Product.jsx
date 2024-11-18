@@ -60,23 +60,23 @@ useEffect(()=>{
 },[])
   const handleAddToCart = (item) => {
     try {
-      console.log('Добавление товара в корзину', item); // Логирование товара перед добавлением
+      console.log('Добавление товара в корзину', item); 
   
-      // Очистка фото данных, разбиваем их на массив
+
       const cleanedPhotos = item.photo.replace(/\r\n/g, ', ').split(', ');
   
-      // Обновляем объект товара
+
       const itemToAdd = {
         ...item,
-        photo: cleanedPhotos,  // Теперь фото — это массив
+        photo: cleanedPhotos,  
       };
   
-      // Обновление состояния корзины
+  
       const updatedCart = [...cart, itemToAdd];
       setCart(updatedCart);
       console.log('Обновленная корзина:', updatedCart);
   
-      // Сохраняем обновленную корзину в localStorage
+  
       localStorage.setItem("cart", JSON.stringify(updatedCart));
       console.log('Корзина сохранена в localStorage');
       
@@ -102,22 +102,21 @@ useEffect(()=>{
   const toggleFavourite = (item) => {
     let updatedFavourites;
     
-    // Проверяем, есть ли товар в избранном
+ 
     const isFavourite = favourites.some(fav => fav.code === item.code);
     
     if (isFavourite) {
-      // Удаляем товар из избранного
-      updatedFavourites = favourites.filter(fav => fav.code !== item.code);
+   updatedFavourites = favourites.filter(fav => fav.code !== item.code);
       console.log('Удален из избранного:', item);
     } else {
-      // Добавляем товар в избранное
+
       updatedFavourites = [...favourites, item];
       console.log('Добавлен в избранное:', item);
     }
     
-    // Обновляем состояние избранных товаров
+
     setFavourites(updatedFavourites);
-    // Сохраняем в localStorage
+
     localStorage.setItem("favourites", JSON.stringify(updatedFavourites));
 };
 
@@ -128,7 +127,7 @@ const filteredProducts = () => {
   const filtered = currentProducts.filter(item => {
     const matchesSearch = item.name && item.name.toLowerCase().includes(searchTerm.toLowerCase());
     
-    // Check if the price is "Цена по запросу"
+
     const matchesPrice = item.price === "Цена по запросу" || (item.price >= priceRange[0] && item.price <= priceRange[1]);
     
     const matchesManufacturer = selectedManufacturer ? item.manufacturer === selectedManufacturer : true;
@@ -136,7 +135,7 @@ const filteredProducts = () => {
     return matchesSearch && matchesPrice && matchesManufacturer;
   }).slice(0, visibleProductsCount);
 
-  console.log('Filtered Products:', filtered); // Log the filtered products
+  console.log('Filtered Products:', filtered); 
   return filtered;
 };
 
@@ -196,7 +195,7 @@ const filteredProducts = () => {
         const images = item.photo.replace(/\\r\\n/g, '\n').split('\n');
         const isFavourite = favourites.some(fav => fav.code === item.code);
         
-        // Check if price is a number or a string like "Цена по запросу"
+    
         const priceDisplay = isNaN(item.price) ? "Цена по запросу" : `${item.price} руб.`;
         
         return (

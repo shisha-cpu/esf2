@@ -23,24 +23,24 @@
     overflow-y: auto; 
 }
 
-/* Each basket item */
+
 .basket-item {
     display: flex;
-    background: #ffffff; /* White background for items */
+    background: #ffffff;
     max-width: 1000px;
 
     border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Enhanced shadow for depth */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     padding: 20px;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .basket-item:hover {
-    transform: scale(1.02); /* Slight scale on hover for interactivity */
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* Deeper shadow on hover */
+    transform: scale(1.02);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); 
 }
 
-/* Item photo */
+
 .item-photo img {
     width: 120px;
     height: 120px;
@@ -48,7 +48,7 @@
     border-radius: 8px;
 }
 
-/* Item details (name, price, quantity) */
+
 .item-details {
     margin-left: 20px;
     flex-grow: 1;
@@ -64,7 +64,7 @@
 .item-price {
     font-size: 20px;
     margin-bottom: 10px;
-    color: #ff6347; /* Price in tomato red to stand out */
+    color: #ff6347;
 }
 
 .item-quantity {
@@ -73,10 +73,7 @@
     gap: 10px;
 }
 
-/* Buttons styling */
 
-
-/* Right sidebar with total and order button */
 .basket-sidebar {
     position: sticky;
     top: 20px;
@@ -88,7 +85,7 @@
     height: fit-content;
 }
 
-/* Total price display */
+
 .basket-total {
     margin-bottom: 20px;
     font-size: 20px;
@@ -96,7 +93,7 @@
     color: #333;
 }
 
-/* Fixed button at the bottom */
+
 .order-button {
     width: 100%;
     padding: 15px;
@@ -112,7 +109,7 @@
     background-color: #45a049;
 }
 
-/* Mobile responsiveness */
+
 @media (max-width: 768px) {
     .basket-item{
         display: flex;
@@ -136,7 +133,6 @@
         margin-top: 20px;
     }
 
-    /* Ensure the order button is always accessible */
     .order-button {
         position: fixed;
         bottom: 0;

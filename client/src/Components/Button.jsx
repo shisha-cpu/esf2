@@ -1,5 +1,5 @@
 import React from "react";
-import './button.css'; // Подключим стили
+import './button.css'; 
 
 const Button = ({text}) => {
   return (

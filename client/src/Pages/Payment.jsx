@@ -1,5 +1,5 @@
 import React from 'react';
-import './Payment.css'; // Предположим, что стили хранятся в отдельном CSS-файле
+import './Payment.css'; 
 
 const Payment = () => {
   return (
@@ -8,7 +8,7 @@ const Payment = () => {
         <h1>Оплата и доставка</h1>
       </div>
 
-      {/* Секция способов доставки */}
+
       <section className="delivery-section">
         <h2>Способы доставки</h2>
         <p>Доставка заказов осуществляется при помощи:</p>
@@ -37,7 +37,7 @@ const Payment = () => {
         </div>
       </section>
 
-      {/* Секция способов оплаты */}
+
       <section className="payment-section">
         <h2>Способы оплаты</h2>
 

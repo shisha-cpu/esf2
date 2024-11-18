@@ -97,8 +97,8 @@ console.log(showInput);
         alt="Search"
         className="search-icon"
         onClick={(e) => {
-          e.stopPropagation(); // Останавливаем всплытие события
-          setTimeout(() => setShowInput(true), 0); // Обновляем состояние с задержкой
+          e.stopPropagation();
+          setTimeout(() => setShowInput(true), 0);
         }}
         style={{ cursor: 'pointer' }}
       />

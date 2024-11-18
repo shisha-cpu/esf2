@@ -5,12 +5,12 @@ import axios from "axios";
 
 export default function Favourites() {
   const [favourites, setFavourites] = useState([]);
-  const [products, setProducts] = useState([]); // Add this line
-  const [cart, setCart] = useState([]); // Define setCart here
+  const [products, setProducts] = useState([]);
+  const [cart, setCart] = useState([]); 
 
   useEffect(() => {
     axios.get('http://90.156.169.196:4444/data')
-      .then(res => setProducts(res.data)) // This will now work correctly
+      .then(res => setProducts(res.data)) 
       .catch(err => console.log(err));
   
     const storedFavourites = JSON.parse(localStorage.getItem("favourites")) || [];

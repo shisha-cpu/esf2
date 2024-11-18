@@ -1,5 +1,5 @@
 
-/* PhoneIcon.css */
+
 .phone-icon {
   position: fixed;
   bottom: 20px;
@@ -15,15 +15,15 @@
   pointer-events: auto;
 }
 
-/* Перемещение иконок WhatsApp выше телефона */
+
 .whatsapp-icons {
   position: fixed;
-  bottom: 100px; /* Расположение выше на экране, чем иконка телефона */
+  bottom: 100px; 
   right: 20px;
   display: flex;
   flex-direction: column;
   gap: 10px;
-  z-index: 10000; /* Убедитесь, что иконки WhatsApp поверх других элементов */
+  z-index: 10000;
 }
 
 .whatsapp-icon {

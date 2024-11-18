@@ -52,14 +52,14 @@
 .text h2 {
     font-size: 1.5em;
     margin-bottom: 10px;
-    color: #007BFF; /* Main accent color */
+    color: #007BFF; 
 }
 
 .text p {
     line-height: 1.6;
 }
 
-/* Reverse section layout */
+
 .reverse {
     flex-direction: row-reverse;
 }

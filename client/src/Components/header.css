@@ -1,4 +1,3 @@
-/* Основной стиль для header */
 .header {
   position: relative;
   text-align: center;
@@ -37,11 +36,11 @@
   max-width: 160px;
 }
 
-/* Стили для навигации */
+
 .header-navigate {
   display: flex;
   gap: 15px;
-  z-index: 1000; /* Поверх всего */
+  z-index: 1000;
 }
 
 .header-navigate a {
@@ -74,7 +73,7 @@
     align-items: center;
     transform: translateX(100%);
     transition: transform 0.3s ease;
-    z-index: 1000; /* Поверх контента */
+    z-index: 1000;
   }
 
   .header-navigate.active {
@@ -89,11 +88,11 @@
   }
 }
 
-/* Стиль бургер-меню */
+
 .burger-menu {
   display: none;
   cursor: pointer;
-  z-index: 1001; /* Чтобы бургер-меню было поверх всего */
+  z-index: 1001; 
   margin-top: 30px;
 }
 

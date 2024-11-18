@@ -5,7 +5,7 @@ const fs = require('fs');
 const path = require('path');
 
 const app = express();
-app.use(express.json({ limit: '50mb' })); // Увеличение лимита размера запроса
+app.use(express.json({ limit: '50mb' })); 
 app.use(cors());
 
 mongoose
@@ -13,7 +13,7 @@ mongoose
   .then(() => console.log('DB connection successful'))
   .catch((err) => console.log('DB connection error:', err));
 
-// Эндпоинт для получения данных
+
 app.get('/data', (req, res) => {
   const dataPath = path.join(__dirname, 'data.json');
   fs.readFile(dataPath, 'utf8', (err, data) => {
@@ -25,7 +25,6 @@ app.get('/data', (req, res) => {
   });
 });
 
-// Эндпоинт для обновления данных
 app.post('/update-data', (req, res) => {
   const newData = req.body;
   const filePath = path.join(__dirname, 'data.json');
@@ -40,6 +39,6 @@ app.post('/update-data', (req, res) => {
   });
 });
 
-// Запуск сервера
+
 const PORT = process.env.PORT || 4444;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

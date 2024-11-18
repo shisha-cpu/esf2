@@ -1,4 +1,4 @@
-/* Footer Base Styles */
+
 .footer {
   background-color: #282828;
   color: #fff; 
@@ -20,10 +20,10 @@
   background: linear-gradient(60deg, rgba(84, 58, 183, 1), rgba(0, 172, 193, 1));
   z-index: 1;
   animation: moveBackground 10s linear infinite;
-  opacity: 0.9; /* Slight transparency for a softer effect */
+  opacity: 0.9; 
 }
 
-/* Footer Container */
+
 .footer-container {
   position: relative;
   z-index: 2;
@@ -35,7 +35,7 @@
   align-items: center;
 }
 
-/* Contact List Style */
+
 .contact-list {
   list-style: none;
   padding: 0;
@@ -48,7 +48,7 @@
   margin: 5px 0;
 }
 
-/* Button Style */
+
 .btn-contact {
   background-color: darkviolet;
   color: white;

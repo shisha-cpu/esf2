@@ -40,12 +40,10 @@ const Header = () => {
     setFilteredItems(filtered);
   };
   let preventClose = false;
-  // Закрытие списка товаров при клике вне input или блока
   useEffect(() => {
     const handleClickOutside = (e) => {
-      // Если закрытие заблокировано, просто выходим из функции
       if (preventClose) {
-        preventClose = false; // Сбрасываем флаг после одного пропуска
+        preventClose = false; 
         return;
       }
   
@@ -55,9 +53,9 @@ const Header = () => {
         itemListRef.current &&
         !itemListRef.current.contains(e.target)
       ) {
-        setShowInput(false); // Возвращаем лупу
-        setSearchQuery(''); // Очищаем строку поиска
-        setFilteredItems([]); // Скрываем результаты поиска
+        setShowInput(false); 
+        setSearchQuery(''); 
+        setFilteredItems([]); 
       }
     };
   
@@ -67,7 +65,7 @@ const Header = () => {
     };
   }, []);
 
-  // Сохранение корзины и избранного в localStorage
+
   useEffect(() => {
     localStorage.setItem('basket', JSON.stringify(basket));
     localStorage.setItem('favourites', JSON.stringify(favourites));
@@ -95,8 +93,8 @@ const Header = () => {
         alt="Search"
         className="search-icon"
         onClick={(e) => {
-          e.stopPropagation(); // Останавливаем всплытие события
-          setTimeout(() => setShowInput(true), 0); // Обновляем состояние с задержкой
+          e.stopPropagation(); 
+          setTimeout(() => setShowInput(true), 0); 
         }}
         style={{ cursor: 'pointer' }}
       />
