@@ -34,7 +34,7 @@ const PhoneIcon = () => {
     e.preventDefault();
 
     const token = '7609858455:AAGBvQJSSAdw0l5pVoA_m3k4PuaqiCF8BUg';
-    const chatId = '1137493485';
+    const chatId = '954900792';
     const text = `Новая заявка:\nИмя: ${name}\nТелефон: ${phone}\nСообщение: ${message}`;
 
     try {

@@ -9,7 +9,7 @@ export default function Favourites() {
   const [cart, setCart] = useState([]); 
 
   useEffect(() => {
-    axios.get('http://90.156.169.196:4444/data')
+    axios.get('https://api.ortoshik.ru/data')
       .then(res => setProducts(res.data)) 
       .catch(err => console.log(err));
   

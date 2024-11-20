@@ -14,7 +14,7 @@ function Admin() {
   };
 
   const handleLogin = () => {
-    if (password === '1') {
+    if (password === '1234') {
       setIsAuthenticated(true);
     } else {
       alert('Неверный пароль');
@@ -65,7 +65,7 @@ function Admin() {
       setJsonText(JSON.stringify(result, null, 2));
   
 
-      fetch('http://90.156.169.196:4444/update-data', {
+      fetch('https://api.ortoshik.ru/update-data', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

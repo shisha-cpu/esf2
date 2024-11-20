@@ -69,11 +69,18 @@ export default function Basket() {
 
     const handleOrderSubmit = async () => {
         try {
-            const token = '7609858455:AAGBvQJSSAdw0l5pVoA_m3k4PuaqiCF8BUg';
-            const chatId = '1137493485';
-            const orderDetails = basket.map(item => 
-                `• ${item.name} x ${item.quantity} — ${item.price * item.quantity} руб`
-            ).join('\n');
+            const token = '7989665375:AAF1HBYEdAGDm8Ab6sCSMKVLgwclddn70Hk';
+            const chatId = '954900792';
+            const orderDetails = basket.map(item => {
+                const validPrice = isNaN(Number(item.price)) ? 0 : Number(item.price);
+                const validQuantity = isNaN(Number(item.quantity)) ? 1 : Number(item.quantity);
+                const totalPrice = validPrice * validQuantity;
+                return `• ${item.name} x ${validQuantity} — ${totalPrice} руб`;
+            }).join('\n');
+            
+
+            console.log(orderDetails);
+            
             const message = `🛒 Новый заказ:\nИмя: ${name}\nТелефон: ${phone}\n\n${orderDetails}\n\n💰 Общая сумма: ${total} руб`;
 
             await axios.post(`https://api.telegram.org/bot${token}/sendMessage`, {
